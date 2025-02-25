@@ -1,3 +1,5 @@
+// HIIII!
+
 import { Application, Router } from "https://deno.land/x/oak@v12.6.1/mod.ts";
 
 import { createExitSignal, staticServer } from "./shared/server.ts";
@@ -27,7 +29,10 @@ router.get("/api/headline", async (ctx) => {
   const articles = await nytResponse.json();
   const randomArticle = sampleArray(articles.results);
   console.log(randomArticle);
-  ctx.response.body = { title: randomArticle.title, topic: randomArticle.section };
+  ctx.response.body = {
+    title: randomArticle.title,
+    topic: randomArticle.section,
+  };
 });
 
 app.use(router.routes());
