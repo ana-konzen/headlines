@@ -1,0 +1,467 @@
+[
+  {
+    "og_article": "Before Ascending to Top Tier of F.B.I., Bongino Fueled Right-Wing Disbelief",
+    "section": "us",
+    "spacy_analysis": {
+      "entities": {
+        "named_entities": {
+          "GPE": [
+            {
+              "text": "F.B.I.",
+              "start": 32,
+              "end": 38
+            }
+          ],
+          "ORG": [
+            {
+              "text": "Bongino Fueled Right-Wing",
+              "start": 40,
+              "end": 65
+            }
+          ]
+        },
+        "nouns": [
+          {
+            "text": "Tier",
+            "start": 24,
+            "end": 28,
+            "is_proper": true
+          },
+          {
+            "text": "F.B.I.",
+            "start": 32,
+            "end": 38,
+            "is_proper": true
+          },
+          {
+            "text": "Bongino",
+            "start": 40,
+            "end": 47,
+            "is_proper": true
+          },
+          {
+            "text": "Wing",
+            "start": 61,
+            "end": 65,
+            "is_proper": false
+          },
+          {
+            "text": "Disbelief",
+            "start": 66,
+            "end": 75,
+            "is_proper": true
+          }
+        ],
+        "verbs": [
+          {
+            "text": "Ascending",
+            "start": 7,
+            "end": 16
+          },
+          {
+            "text": "Fueled",
+            "start": 48,
+            "end": 54
+          }
+        ],
+        "adjectives": [
+          {
+            "text": "Top",
+            "start": 20,
+            "end": 23
+          },
+          {
+            "text": "Right",
+            "start": 55,
+            "end": 60
+          }
+        ],
+        "numbers": []
+      },
+      "entity_types": {
+        "PERSON": "People, including fictional",
+        "NORP": "Nationalities, religious or political groups",
+        "FAC": "Buildings, airports, highways, bridges, etc.",
+        "ORG": "Companies, agencies, institutions, etc.",
+        "GPE": "Countries, cities, states",
+        "LOC": "Non-GPE locations, mountain ranges, bodies of water",
+        "PRODUCT": "Objects, vehicles, foods, etc. (not services)",
+        "EVENT": "Named hurricanes, battles, wars, sports events, etc.",
+        "WORK_OF_ART": "Titles of books, songs, etc.",
+        "LAW": "Named documents made into laws",
+        "LANGUAGE": "Any named language",
+        "DATE": "Absolute or relative dates or periods",
+        "TIME": "Times smaller than a day",
+        "PERCENT": "Percentage, including '%'",
+        "MONEY": "Monetary values, including unit",
+        "QUANTITY": "Measurements, as of weight or distance",
+        "ORDINAL": "First, second, etc.",
+        "CARDINAL": "Numerals that do not fall under another type"
+      }
+    }
+  },
+  {
+    "og_article": "Roberta Flack's 11 Essential Songs",
+    "section": "arts",
+    "spacy_analysis": {
+      "entities": {
+        "named_entities": {
+          "PERSON": [
+            {
+              "text": "Roberta Flack's",
+              "start": 0,
+              "end": 15
+            }
+          ],
+          "CARDINAL": [
+            {
+              "text": "11",
+              "start": 16,
+              "end": 18
+            }
+          ]
+        },
+        "nouns": [
+          {
+            "text": "Roberta",
+            "start": 0,
+            "end": 7,
+            "is_proper": true
+          },
+          {
+            "text": "Flack",
+            "start": 8,
+            "end": 13,
+            "is_proper": true
+          },
+          {
+            "text": "Essential",
+            "start": 19,
+            "end": 28,
+            "is_proper": true
+          },
+          {
+            "text": "Songs",
+            "start": 29,
+            "end": 34,
+            "is_proper": true
+          }
+        ],
+        "verbs": [],
+        "adjectives": [],
+        "numbers": [
+          {
+            "text": "11",
+            "start": 16,
+            "end": 18
+          }
+        ]
+      },
+      "entity_types": {
+        "PERSON": "People, including fictional",
+        "NORP": "Nationalities, religious or political groups",
+        "FAC": "Buildings, airports, highways, bridges, etc.",
+        "ORG": "Companies, agencies, institutions, etc.",
+        "GPE": "Countries, cities, states",
+        "LOC": "Non-GPE locations, mountain ranges, bodies of water",
+        "PRODUCT": "Objects, vehicles, foods, etc. (not services)",
+        "EVENT": "Named hurricanes, battles, wars, sports events, etc.",
+        "WORK_OF_ART": "Titles of books, songs, etc.",
+        "LAW": "Named documents made into laws",
+        "LANGUAGE": "Any named language",
+        "DATE": "Absolute or relative dates or periods",
+        "TIME": "Times smaller than a day",
+        "PERCENT": "Percentage, including '%'",
+        "MONEY": "Monetary values, including unit",
+        "QUANTITY": "Measurements, as of weight or distance",
+        "ORDINAL": "First, second, etc.",
+        "CARDINAL": "Numerals that do not fall under another type"
+      }
+    }
+  },
+  {
+    "og_article": "Hamas Official Expresses Reservations About Oct. 7 Attack on Israel",
+    "section": "world",
+    "spacy_analysis": {
+      "entities": {
+        "named_entities": {
+          "ORG": [
+            {
+              "text": "Hamas",
+              "start": 0,
+              "end": 5
+            }
+          ],
+          "DATE": [
+            {
+              "text": "About Oct. 7",
+              "start": 38,
+              "end": 50
+            }
+          ],
+          "GPE": [
+            {
+              "text": "Israel",
+              "start": 61,
+              "end": 67
+            }
+          ]
+        },
+        "nouns": [
+          {
+            "text": "Hamas",
+            "start": 0,
+            "end": 5,
+            "is_proper": true
+          },
+          {
+            "text": "Official",
+            "start": 6,
+            "end": 14,
+            "is_proper": true
+          },
+          {
+            "text": "Reservations",
+            "start": 25,
+            "end": 37,
+            "is_proper": true
+          },
+          {
+            "text": "Oct.",
+            "start": 44,
+            "end": 48,
+            "is_proper": true
+          },
+          {
+            "text": "Attack",
+            "start": 51,
+            "end": 57,
+            "is_proper": true
+          },
+          {
+            "text": "Israel",
+            "start": 61,
+            "end": 67,
+            "is_proper": true
+          }
+        ],
+        "verbs": [
+          {
+            "text": "Expresses",
+            "start": 15,
+            "end": 24
+          }
+        ],
+        "adjectives": [],
+        "numbers": [
+          {
+            "text": "7",
+            "start": 49,
+            "end": 50
+          }
+        ]
+      },
+      "entity_types": {
+        "PERSON": "People, including fictional",
+        "NORP": "Nationalities, religious or political groups",
+        "FAC": "Buildings, airports, highways, bridges, etc.",
+        "ORG": "Companies, agencies, institutions, etc.",
+        "GPE": "Countries, cities, states",
+        "LOC": "Non-GPE locations, mountain ranges, bodies of water",
+        "PRODUCT": "Objects, vehicles, foods, etc. (not services)",
+        "EVENT": "Named hurricanes, battles, wars, sports events, etc.",
+        "WORK_OF_ART": "Titles of books, songs, etc.",
+        "LAW": "Named documents made into laws",
+        "LANGUAGE": "Any named language",
+        "DATE": "Absolute or relative dates or periods",
+        "TIME": "Times smaller than a day",
+        "PERCENT": "Percentage, including '%'",
+        "MONEY": "Monetary values, including unit",
+        "QUANTITY": "Measurements, as of weight or distance",
+        "ORDINAL": "First, second, etc.",
+        "CARDINAL": "Numerals that do not fall under another type"
+      }
+    }
+  },
+  {
+    "og_article": "What Germany's Election Result Means for Its Economy",
+    "section": "business",
+    "spacy_analysis": {
+      "entities": {
+        "named_entities": {
+          "GPE": [
+            {
+              "text": "Germany",
+              "start": 5,
+              "end": 12
+            }
+          ],
+          "ORG": [
+            {
+              "text": "Election Result Means",
+              "start": 15,
+              "end": 36
+            }
+          ]
+        },
+        "nouns": [
+          {
+            "text": "Germany",
+            "start": 5,
+            "end": 12,
+            "is_proper": true
+          },
+          {
+            "text": "Election",
+            "start": 15,
+            "end": 23,
+            "is_proper": true
+          },
+          {
+            "text": "Result",
+            "start": 24,
+            "end": 30,
+            "is_proper": true
+          },
+          {
+            "text": "Economy",
+            "start": 45,
+            "end": 52,
+            "is_proper": false
+          }
+        ],
+        "verbs": [
+          {
+            "text": "Means",
+            "start": 31,
+            "end": 36
+          }
+        ],
+        "adjectives": [],
+        "numbers": []
+      },
+      "entity_types": {
+        "PERSON": "People, including fictional",
+        "NORP": "Nationalities, religious or political groups",
+        "FAC": "Buildings, airports, highways, bridges, etc.",
+        "ORG": "Companies, agencies, institutions, etc.",
+        "GPE": "Countries, cities, states",
+        "LOC": "Non-GPE locations, mountain ranges, bodies of water",
+        "PRODUCT": "Objects, vehicles, foods, etc. (not services)",
+        "EVENT": "Named hurricanes, battles, wars, sports events, etc.",
+        "WORK_OF_ART": "Titles of books, songs, etc.",
+        "LAW": "Named documents made into laws",
+        "LANGUAGE": "Any named language",
+        "DATE": "Absolute or relative dates or periods",
+        "TIME": "Times smaller than a day",
+        "PERCENT": "Percentage, including '%'",
+        "MONEY": "Monetary values, including unit",
+        "QUANTITY": "Measurements, as of weight or distance",
+        "ORDINAL": "First, second, etc.",
+        "CARDINAL": "Numerals that do not fall under another type"
+      }
+    }
+  },
+  {
+    "og_article": "Clint Hill, Who Sprang to Kennedys' Side as Shots Were Fired, Dies at 93",
+    "section": "us",
+    "spacy_analysis": {
+      "entities": {
+        "named_entities": {
+          "PERSON": [
+            {
+              "text": "Clint Hill",
+              "start": 0,
+              "end": 10
+            }
+          ],
+          "CARDINAL": [
+            {
+              "text": "93",
+              "start": 70,
+              "end": 72
+            }
+          ]
+        },
+        "nouns": [
+          {
+            "text": "Clint",
+            "start": 0,
+            "end": 5,
+            "is_proper": true
+          },
+          {
+            "text": "Hill",
+            "start": 6,
+            "end": 10,
+            "is_proper": true
+          },
+          {
+            "text": "Sprang",
+            "start": 16,
+            "end": 22,
+            "is_proper": true
+          },
+          {
+            "text": "Kennedys",
+            "start": 26,
+            "end": 34,
+            "is_proper": true
+          },
+          {
+            "text": "Side",
+            "start": 36,
+            "end": 40,
+            "is_proper": false
+          },
+          {
+            "text": "Shots",
+            "start": 44,
+            "end": 49,
+            "is_proper": false
+          }
+        ],
+        "verbs": [
+          {
+            "text": "Fired",
+            "start": 55,
+            "end": 60
+          },
+          {
+            "text": "Dies",
+            "start": 62,
+            "end": 66
+          }
+        ],
+        "adjectives": [],
+        "numbers": [
+          {
+            "text": "93",
+            "start": 70,
+            "end": 72
+          }
+        ]
+      },
+      "entity_types": {
+        "PERSON": "People, including fictional",
+        "NORP": "Nationalities, religious or political groups",
+        "FAC": "Buildings, airports, highways, bridges, etc.",
+        "ORG": "Companies, agencies, institutions, etc.",
+        "GPE": "Countries, cities, states",
+        "LOC": "Non-GPE locations, mountain ranges, bodies of water",
+        "PRODUCT": "Objects, vehicles, foods, etc. (not services)",
+        "EVENT": "Named hurricanes, battles, wars, sports events, etc.",
+        "WORK_OF_ART": "Titles of books, songs, etc.",
+        "LAW": "Named documents made into laws",
+        "LANGUAGE": "Any named language",
+        "DATE": "Absolute or relative dates or periods",
+        "TIME": "Times smaller than a day",
+        "PERCENT": "Percentage, including '%'",
+        "MONEY": "Monetary values, including unit",
+        "QUANTITY": "Measurements, as of weight or distance",
+        "ORDINAL": "First, second, etc.",
+        "CARDINAL": "Numerals that do not fall under another type"
+      }
+    }
+  }
+]
