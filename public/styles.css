@@ -61,8 +61,14 @@ button:hover {
   transform: translateY(-1px);
 }
 
-button:active {
-  transform: translateY(0);
+.disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.disabled:hover {
+  background-color: #999;
+  transform: none;
 }
 
 #startGame {

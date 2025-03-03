@@ -61,11 +61,12 @@ function fetchHeadlines() {
     .then((response) => response.json())
     .then((responseArr) => {
       responseArr.forEach((responseObj) => {
-        const newButton = createButton(responseObj.word);
-        newButton.mousePressed(() => {
-          chosenWord = responseObj.word;
+        const newOption = createButton(responseObj.word);
+        newOption.parent("#optionsCont");
+        newOption.addClass("possible-option option-button");
+        newOption.mousePressed(() => {
+          handleOptionPress(newOption, responseObj);
         });
-        newButton.parent("#optionsCont");
       });
       articles = shuffle(responseArr);
       headline = articles[headlineIndex];
@@ -76,6 +77,7 @@ function goToNextRound() {
   if (chosenWord === articles[headlineIndex].word) {
     me.score++;
   }
+  select(".disabled").removeClass("possible-option");
   chosenWord = "____";
   headlineIndex++;
   timer = roundTime;
@@ -85,4 +87,13 @@ function goToNextRound() {
     return;
   }
   headline = articles[headlineIndex];
+}
+
+function handleOptionPress(option, responseObj) {
+  if (option.hasClass("disabled")) return;
+  chosenWord = responseObj.word;
+  selectAll(".possible-option").forEach((button) => {
+    button.removeClass("disabled");
+  });
+  option.addClass("disabled");
 }
