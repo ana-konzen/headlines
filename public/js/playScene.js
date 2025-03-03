@@ -1,8 +1,7 @@
 // deno-lint-ignore-file
 
 import { changeScene, scenes } from "./main.js";
-import * as player from "./player.js";
-import * as host from "./host.js";
+import { makeId } from "./utilities.js";
 
 const numArticles = 10;
 
@@ -18,17 +17,15 @@ let headline;
 export function preload() {
   partyConnect("wss://demoserver.p5party.org", "headlines-game-testt");
 
-  host.preload();
-  player.preload();
-
   shared = partyLoadShared("shared");
   guests = partyLoadGuestShareds();
-  me = partyLoadMyShared();
+  me = partyLoadMyShared({
+    id: makeId(), // a unique string id
+    score: 0,
+  });
 }
 
 export function setup() {
-  if (partyIsHost()) host.setup();
-  player.setup();
   select("#next").mousePressed(() => {
     if (chosenWord === "____") {
       return;
@@ -66,12 +63,10 @@ function fetchHeadlines() {
   fetch("/api/headline")
     .then((response) => response.json())
     .then((responseArr) => {
-      console.log(responseArr);
       responseArr.forEach((responseObj) => {
         const newButton = createButton(responseObj.word);
         newButton.mousePressed(() => {
           chosenWord = responseObj.word;
-          console.log(chosenWord);
         });
         newButton.parent("#optionsCont");
       });
