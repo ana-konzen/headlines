@@ -61,12 +61,7 @@ function fetchHeadlines() {
     .then((response) => response.json())
     .then((responseArr) => {
       responseArr.forEach((responseObj) => {
-        const newOption = createButton(responseObj.word);
-        newOption.parent("#optionsCont");
-        newOption.addClass("possible-option option-button");
-        newOption.mousePressed(() => {
-          handleOptionPress(newOption, responseObj);
-        });
+        createOption(responseObj);
       });
       articles = shuffle(responseArr);
       headline = articles[headlineIndex];
@@ -87,6 +82,15 @@ function goToNextRound() {
     return;
   }
   headline = articles[headlineIndex];
+}
+
+function createOption(responseObj) {
+  const newOption = createButton(responseObj.word);
+  newOption.parent("#optionsCont");
+  newOption.addClass("possible-option option-button");
+  newOption.mousePressed(() => {
+    handleOptionPress(newOption, responseObj);
+  });
 }
 
 function handleOptionPress(option, responseObj) {
