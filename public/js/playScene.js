@@ -4,6 +4,7 @@ import { changeScene, scenes } from "./main.js";
 import { makeId } from "./utilities.js";
 
 const numArticles = 10;
+const roundTime = 60;
 
 let me;
 let guests;
@@ -14,8 +15,10 @@ let chosenWord = "____";
 let articles = [];
 let headline;
 
+let timer = roundTime;
+
 export function preload() {
-  partyConnect("wss://demoserver.p5party.org", "headlines-game-testt");
+  partyConnect("wss://demoserver.p5party.org", "headlines-game");
 
   shared = partyLoadShared("shared");
   guests = partyLoadGuestShareds();
@@ -30,21 +33,15 @@ export function setup() {
     if (chosenWord === "____") {
       return;
     }
-
-    if (chosenWord === articles[headlineIndex].word) {
-      me.score++;
-    }
-    chosenWord = "____";
-    headlineIndex++;
-    if (headlineIndex >= numArticles) {
-      console.log("end");
-      changeScene(scenes.end);
-      return;
-    }
-    headline = articles[headlineIndex];
+    goToNextRound();
   });
 }
 export function update() {
+  if (frameCount % 60 === 0) timer--;
+  if (timer <= 0) {
+    goToNextRound();
+  }
+  select("#timer").html(timer);
   if (headlineIndex < numArticles) {
     select("#headline").html(headline?.article?.replace("____", `<span class="answer">${chosenWord}</span>`));
   }
@@ -73,4 +70,19 @@ function fetchHeadlines() {
       articles = shuffle(responseArr);
       headline = articles[headlineIndex];
     });
+}
+
+function goToNextRound() {
+  if (chosenWord === articles[headlineIndex].word) {
+    me.score++;
+  }
+  chosenWord = "____";
+  headlineIndex++;
+  timer = roundTime;
+  if (headlineIndex >= numArticles) {
+    console.log("end");
+    changeScene(scenes.end);
+    return;
+  }
+  headline = articles[headlineIndex];
 }
