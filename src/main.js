@@ -15,15 +15,6 @@ const kv = await Deno.openKv();
 const date = checkTime(1) ? getDate(true) : getDate();
 const numArticles = 10;
 
-const articles = await getArticles();
-await kv.set(["gameData", date], {
-  scores: [],
-  date: date,
-  numPlayers: 0,
-  articles: articles,
-  numArticles: numArticles,
-});
-
 Deno.cron("Get new articles", "50 0 * * *", async () => {
   console.log("Getting new articles...");
   const articles = await getArticles();
