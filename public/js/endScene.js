@@ -26,13 +26,13 @@ export function enter() {
   select("#end").style("display", "block");
   fetch("/api/scores").then((response) => {
     response.json().then((scores) => {
-      console.log("scores:", scores);
       scores.forEach((score) => {
         const scoreDiv = select(`.score-${score} div`);
         scoreDiv.html(parseInt(scoreDiv.html()) + 1 + " people");
       });
     });
   });
+  select(`.score-${me.score}`).style("background-color", "#e15656");
   // guests.forEach((guest, index) => {
   //   const guestDiv = createDiv(`Player ${index + 1}: <span class=${guest.id}>${guest.score}</span>`);
   //   guestDiv.parent("#scores");
