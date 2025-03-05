@@ -13,9 +13,7 @@ const router = new Router();
 
 const kv = await Deno.openKv();
 
-// getArticles();
-
-Deno.cron("Run every day at midnight", "11 18 * * *", () => {
+Deno.cron("Get new articles at 12:50 am", "0 50 * * *", () => {
   console.log("Getting new articles...");
   getArticles();
 });
@@ -24,8 +22,11 @@ router.get("/api/headline", async (ctx) => {
   console.log("ctx.request.url.pathname:", ctx.request.url.pathname);
   console.log("ctx.request.method:", ctx.request.method);
 
-  const articles = await kv.get(["headlines", getDate()]);
-  console.log("articles:", articles);
+  const now = new Date();
+  const hour = now.getHours();
+
+  // get articles from the previous day if it's before 1am
+  const articles = hour < 1 ? await kv.get("headlines", getDate(true)) : await kv.get("headlines", getDate());
 
   ctx.response.body = articles.value.headlines;
 });
@@ -46,7 +47,6 @@ async function getArticles() {
   const numArticles = 10;
 
   const nytKey = getEnvVariable("NYT_KEY");
-  console.log("nytKey:", nytKey);
 
   /* possible sections: home, arts, automobiles, books/review, 
   business, fashion, food, health, insider, magazine, movies,
@@ -86,15 +86,15 @@ async function getArticles() {
     date: getDate(),
     headlines: randomArticles,
   };
-  // await Deno.writeTextFile("articles.json", JSON.stringify(randomArticles, null, 2));
-  console.log(newArticles.date);
   kv.set(["headlines", newArticles.date], newArticles);
 
   return newArticles;
 }
 
-function getDate() {
+function getDate(yesterday = false) {
   const today = new Date();
+  if (yesterday) today.setDate(today.getDate() - 1);
+
   return `${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(
     2,
     "0"
