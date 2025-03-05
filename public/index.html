@@ -13,24 +13,36 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
   <body>
-    <h1>Headlines</h1>
     <div id="start">
-      <button id="startGame">start</button>
+      <!--<div class="back-button">←</div> -->
+      <img src="assets/icon.png" alt="Profile Icon" class="profile-icon">
+      <h1>Headlines</h1>
+      <p class="subtitle">Fill in the blanks faster than your friends.</p>
+      <div class="button-container">
+        <button id="startGame">Versus</button>
+        <button class="secondary">Global</button>
+      </div>
+      <div class="date">March 5, 2025</div>
     </div>
+    
     <div id="game">
+      <div class="theme-container">
+        <p class="theme-label">TODAY'S THEME</p>
+        <p class="theme-text">Random</p>
+      </div>
+      <p class="instruction-text">Fill in the blank!</p>
       <div id="headline"></div>
       <div id="optionsCont"></div>
-      <button id="next">next</button>
+      <button id="next">Next</button>
     </div>
+    
     <div id="end">
       <div id="leaderboard">
         Leaderboard
         <div id="scores"></div>
       </div>
-      <button id="seeScores">see leaderboard</button>
     </div>
 
-    <!-- <script src="sketch.js"></script> -->
     <script defer type="module" src="js/main.js"></script>
   </body>
 </html>

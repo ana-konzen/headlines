@@ -49,16 +49,18 @@ export function setup() {
 }
 export function update() {
   if (headlineIndex < numArticles) {
-    select("#headline").html(headline?.article?.replace("____", `<span class="answer">${chosenWord}</span>`));
+    select("#headline").html(`<div class="headline-text">${headline?.article?.replace("____", `<span class="answer">${chosenWord}</span>`)}</div>`);
   }
 }
 
 export function enter() {
+  document.body.classList.add('game-active');
   fetchHeadlines();
   select("#game").style("display", "block");
 }
 
 export function exit() {
+  document.body.classList.remove('game-active');
   select("#game").style("display", "none");
 }
 
