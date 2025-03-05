@@ -4,7 +4,7 @@ import { changeScene, scenes } from "./main.js";
 import { makeId } from "./utilities.js";
 
 const numArticles = 10;
-const roundTime = 60;
+const roundTime = 10;
 
 let me;
 let guests;
@@ -43,18 +43,23 @@ export function update() {
   }
   select("#timer").html(timer);
   if (headlineIndex < numArticles) {
-    select("#headline").html(`<div class="headline-text">${headline?.article?.replace("____", `<span class="answer">${chosenWord}</span>`)}</div>`);
+    select("#headline").html(
+      `<div class="headline-text">${headline?.article?.replace(
+        "____",
+        `<span class="answer">${chosenWord}</span>`
+      )}</div>`
+    );
   }
 }
 
 export function enter() {
-  document.body.classList.add('game-active');
+  document.body.classList.add("game-active");
   fetchHeadlines();
   select("#game").style("display", "block");
 }
 
 export function exit() {
-  document.body.classList.remove('game-active');
+  document.body.classList.remove("game-active");
   select("#game").style("display", "none");
 }
 
@@ -74,7 +79,9 @@ function goToNextRound() {
   if (chosenWord === articles[headlineIndex].word) {
     me.score++;
   }
-  select(".disabled").removeClass("possible-option");
+  selectAll(".disabled").forEach((button) => {
+    button.removeClass("possible-option");
+  });
   chosenWord = "____";
   headlineIndex++;
   timer = roundTime;
