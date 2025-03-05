@@ -13,7 +13,7 @@ const router = new Router();
 
 const kv = await Deno.openKv();
 
-Deno.cron("Get new articles at 12:50 am", "0 50 * * *", () => {
+Deno.cron("Get new articles at 1250 am", "0 50 * * *", () => {
   console.log("Getting new articles...");
   getArticles();
 });
