@@ -2,7 +2,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: #E15656;
   color: #000;
-  margin: 0;
+  margin: 0px;
   min-height: 100vh;
   overflow-x: hidden;
   position: fixed;
@@ -12,7 +12,7 @@ body {
 #start, #game, #end {
   position: fixed;
   inset: 0;
-  padding: 30px;
+  padding: 20px;
   box-sizing: border-box;
   display: none;
 }
@@ -83,22 +83,31 @@ button:hover {
 }
 
 .theme-container {
-  background: #B2EBF2;
+  background: #ffffff;
+  border: 1px solid #ddd;
   max-width: 600px;
   padding: 8px;
   text-align: center;
   border-radius: 8px;
-  margin: 0 auto 8px;
+  margin: 0 auto;
+}
+
+.theme-label-container {
+  background: #B2EBF2;
+  max-width: 600px;
+  padding: 8px;
+  border-radius: 8px;
+  margin: 0 auto;
 }
 
 .theme-label {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   margin: 0;
 }
 
 .theme-text {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
   margin: 4px 0 0;
 }
@@ -106,17 +115,17 @@ button:hover {
 .instruction-text {
   color: #666;
   font-size: 1.2rem;
-  margin: 2rem auto;
+  margin: 3rem auto 1rem;
   text-align: center;
   max-width: 600px;
 }
 
 #headline, #leaderboard {
   background-color: #ffffff;
-  padding: 24px;
+  padding: 8px;
   border-radius: 16px;
   border: 1px solid #ddd;
-  margin: 1rem auto 2rem;
+  margin: 0 auto 2rem;
   max-width: 600px;
   font-size: 1.5rem;
   text-align: center;
@@ -158,6 +167,13 @@ button:hover {
   border: 2px solid currentColor;
   width: auto;
   padding: 0.8rem 3rem;
+  transition: all 0.2s ease;
+}
+
+#next:hover {
+  background-color: #000;
+  color: white;
+  transform: translateX(-50%) translateY(-1px);
 }
 
 #scores {
@@ -210,5 +226,17 @@ body.game-over #leaderboard { display: block; }
     width: calc(100% - 3rem);
     max-width: 300px;
   }
+}
+
+#timer {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  color: #E15656;
+}
+
+#game {
+  padding-top: 10px;
 }
 
