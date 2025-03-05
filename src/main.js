@@ -24,11 +24,10 @@ router.get("/api/headline", async (ctx) => {
   console.log("ctx.request.url.pathname:", ctx.request.url.pathname);
   console.log("ctx.request.method:", ctx.request.method);
 
-  const now = new Date();
-  const hour = now.getHours();
-
   // get articles from the previous day if it's before 1am
-  const articles = hour < 1 ? await kv.get("headlines", getDate(true)) : await kv.get("headlines", getDate());
+  const articles = checkTime(1)
+    ? await kv.get("headlines", getDate(true))
+    : await kv.get("headlines", getDate());
 
   ctx.response.body = articles.value.headlines;
 });
@@ -101,4 +100,25 @@ function getDate(yesterday = false) {
     2,
     "0"
   )}-${today.getFullYear()}`;
+}
+
+function checkTime(time, dateToCheck = new Date()) {
+  const now = new Date();
+
+  const dateToCheckMidnight = new Date(
+    dateToCheck.getFullYear(),
+    dateToCheck.getMonth(),
+    dateToCheck.getDate()
+  );
+  const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  if (dateToCheckMidnight < nowMidnight) {
+    return true;
+  }
+
+  if (dateToCheck.getHours() < time) {
+    return true;
+  }
+
+  return false;
 }
