@@ -79,9 +79,8 @@ function goToNextRound() {
   if (chosenWord === articles[headlineIndex].word) {
     me.score++;
   }
-  selectAll(".disabled").forEach((button) => {
-    button.removeClass("possible-option");
-  });
+  select(".possible-option.disabled").removeClass("possible-option");
+
   chosenWord = "____";
   headlineIndex++;
   timer = roundTime;
