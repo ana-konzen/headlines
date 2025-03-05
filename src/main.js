@@ -11,7 +11,11 @@ import { promptGPT } from "./shared/openai.ts";
 const app = new Application();
 const router = new Router();
 
-Deno.cron("Run every day at 1am", "7 17 * * *", () => {
+const kv = await Deno.openKv();
+
+// getArticles();
+
+Deno.cron("Run every day at midnight", "11 18 * * *", () => {
   console.log("Getting new articles...");
   getArticles();
 });
@@ -20,9 +24,10 @@ router.get("/api/headline", async (ctx) => {
   console.log("ctx.request.url.pathname:", ctx.request.url.pathname);
   console.log("ctx.request.method:", ctx.request.method);
 
-  const articles = await Deno.readTextFile("articles.json");
-  const parsedArticles = JSON.parse(articles);
-  ctx.response.body = parsedArticles;
+  const articles = await kv.get(["headlines", getDate()]);
+  console.log("articles:", articles);
+
+  ctx.response.body = articles.value.headlines;
 });
 
 app.use(router.routes());
@@ -75,7 +80,23 @@ async function getArticles() {
       word: word,
     });
   }
-  await Deno.writeTextFile("articles.json", JSON.stringify(randomArticles, null, 2));
 
-  return randomArticles;
+  const newArticles = {
+    timestamp: new Date().toISOString(),
+    date: getDate(),
+    headlines: randomArticles,
+  };
+  // await Deno.writeTextFile("articles.json", JSON.stringify(randomArticles, null, 2));
+  console.log(newArticles.date);
+  kv.set(["headlines", newArticles.date], newArticles);
+
+  return newArticles;
+}
+
+function getDate() {
+  const today = new Date();
+  return `${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(
+    2,
+    "0"
+  )}-${today.getFullYear()}`;
 }
