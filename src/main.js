@@ -13,8 +13,6 @@ const router = new Router();
 
 const kv = await Deno.openKv();
 
-console.log("Hello");
-
 Deno.cron("Get new articles", "50 0 * * *", () => {
   console.log("Getting new articles...");
   getArticles();
@@ -26,8 +24,10 @@ router.get("/api/headline", async (ctx) => {
 
   // get articles from the previous day if it's before 1am
   const articles = checkTime(1)
-    ? await kv.get("headlines", getDate(true))
-    : await kv.get("headlines", getDate());
+    ? await kv.get(["headlines", getDate(true)])
+    : await kv.get(["headlines", getDate()]);
+
+  console.log(articles);
 
   ctx.response.body = articles.value.headlines;
 });
