@@ -1,6 +1,6 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background-color: #E15656;
+  background-color: #e15656;
   color: #000;
   margin: 0px;
   min-height: 100vh;
@@ -9,7 +9,9 @@ body {
   inset: 0;
 }
 
-#start, #game, #end {
+#start,
+#game,
+#end {
   position: fixed;
   inset: 0;
   padding: 20px;
@@ -19,10 +21,11 @@ body {
 
 #start {
   text-align: center;
-  background: #E15656;
+  background: #e15656;
 }
 
-#game, #end {
+#game,
+#end {
   background: #ffffff;
 }
 
@@ -72,12 +75,12 @@ button:hover {
   transform: translateY(-1px);
 }
 
-.disabled {
+#optionsCont button.disabled {
   background-color: #999;
   cursor: not-allowed;
 }
 
-.disabled:hover {
+#optionsCont button.disabled:hover {
   background-color: #999;
   transform: none;
 }
@@ -93,7 +96,7 @@ button:hover {
 }
 
 .theme-label-container {
-  background: #B2EBF2;
+  background: #b2ebf2;
   max-width: 600px;
   padding: 8px;
   border-radius: 8px;
@@ -120,7 +123,8 @@ button:hover {
   max-width: 600px;
 }
 
-#headline, #leaderboard {
+#headline,
+#leaderboard {
   background-color: #ffffff;
   padding: 8px;
   border-radius: 16px;
@@ -152,7 +156,7 @@ button:hover {
 }
 
 #optionsCont button {
-  background-color: #E15656;
+  background-color: #e15656;
   border-radius: 16px;
   padding: 1rem;
 }
@@ -194,7 +198,7 @@ button:hover {
 
 #scores span {
   font-weight: bold;
-  color: #E15656;
+  color: #e15656;
 }
 
 .profile-icon {
@@ -214,14 +218,28 @@ button:hover {
 }
 
 body.game-active #game,
-body.game-over #end { display: flex; }
-body.game-active #next { display: block; }
-body.game-over #game { display: none; }
-body.game-over #leaderboard { display: block; }
+body.game-over #end {
+  display: flex;
+}
+body.game-active #next {
+  display: block;
+}
+body.game-over #game {
+  display: none;
+}
+body.game-over #leaderboard {
+  display: block;
+}
 
 @media (max-width: 600px) {
-  #start, #game, #end { padding: 20px; }
-  #optionsCont { gap: 8px; }
+  #start,
+  #game,
+  #end {
+    padding: 20px;
+  }
+  #optionsCont {
+    gap: 8px;
+  }
   #next {
     width: calc(100% - 3rem);
     max-width: 300px;
@@ -233,10 +251,9 @@ body.game-over #leaderboard { display: block; }
   font-weight: bold;
   text-align: center;
   margin: 0;
-  color: #E15656;
+  color: #e15656;
 }
 
 #game {
   padding-top: 10px;
 }
-
