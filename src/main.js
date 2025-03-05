@@ -11,7 +11,7 @@ import { promptGPT } from "./shared/openai.ts";
 const app = new Application();
 const router = new Router();
 
-Deno.cron("Run every day at 1am", "0 1 * * *", () => {
+Deno.cron("Run every day at 1am", "7 17 * * *", () => {
   console.log("Getting new articles...");
   getArticles();
 });
