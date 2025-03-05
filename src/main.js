@@ -27,23 +27,27 @@ Deno.cron("Get new articles", "50 0 * * *", async () => {
   });
 });
 
-router.get("/api/setScore", async (ctx) => {
-  const playerScore = ctx.request.url.searchParams.get("score");
-  const todayData = await kv.get(["gameData", date]);
-  todayData.scores.push(playerScore);
-  todayData.numPlayers++;
-  kv.set(["gameData", date], todayData);
+router.get("/api/numPlayers", async (ctx) => {
+  const gameData = await getGameData();
+  ctx.response.body = gameData.numPlayers;
+});
+
+router.get("/api/scores", async (ctx) => {
+  const gameData = await getGameData();
+  ctx.response.body = gameData.scores;
 });
 
 router.get("/api/headline", async (ctx) => {
-  console.log("ctx.request.url.pathname:", ctx.request.url.pathname);
-  console.log("ctx.request.method:", ctx.request.method);
+  const gameData = await getGameData();
+  ctx.response.body = gameData.articles;
+});
 
-  const gameData = await kv.get(["gameData", date]);
-
-  console.log(gameData);
-
-  ctx.response.body = gameData.value.articles;
+router.get("/api/setScore", async (ctx) => {
+  const playerScore = ctx.request.url.searchParams.get("score");
+  const gameData = await getGameData();
+  gameData.scores.push(playerScore);
+  gameData.numPlayers++;
+  kv.set(["gameData", date], gameData);
 });
 
 app.use(router.routes());
@@ -53,6 +57,11 @@ app.use(staticServer);
 
 console.log("\nListening on http://localhost:8000");
 await app.listen({ port: 8000, signal: createExitSignal() });
+
+async function getGameData() {
+  const data = await kv.get(["gameData", date]);
+  return data.value;
+}
 
 function sampleArray(array) {
   return array[Math.floor(Math.random() * array.length)];
