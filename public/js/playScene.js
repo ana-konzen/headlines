@@ -59,6 +59,7 @@ export function enter() {
 }
 
 export function exit() {
+  fetch(`/api/setScore?score=${me.score}`);
   document.body.classList.remove("game-active");
   select("#game").style("display", "none");
 }
