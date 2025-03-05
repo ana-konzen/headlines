@@ -4,7 +4,7 @@ import { changeScene, scenes } from "./main.js";
 import { makeId } from "./utilities.js";
 
 const numArticles = 10;
-const roundTime = 10;
+const roundTime = 20;
 
 let me;
 let guests;
