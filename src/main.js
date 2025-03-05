@@ -12,24 +12,47 @@ const app = new Application();
 const router = new Router();
 
 const kv = await Deno.openKv();
+const date = checkTime(1) ? getDate(true) : getDate();
+const numArticles = 10;
 
-Deno.cron("Get new articles", "50 0 * * *", () => {
+const articles = await getArticles();
+await kv.set(["gameData", date], {
+  scores: [],
+  date: date,
+  numPlayers: 0,
+  articles: articles,
+  numArticles: numArticles,
+});
+
+Deno.cron("Get new articles", "50 0 * * *", async () => {
   console.log("Getting new articles...");
-  getArticles();
+  const articles = await getArticles();
+  await kv.set(["gameData", date], {
+    scores: [],
+    date: date,
+    numPlayers: 0,
+    articles: articles,
+    numArticles: numArticles,
+  });
+});
+
+router.get("/api/setScore", async (ctx) => {
+  const playerScore = ctx.request.url.searchParams.get("score");
+  const todayData = await kv.get(["gameData", date]);
+  todayData.scores.push(playerScore);
+  todayData.numPlayers++;
+  kv.set(["gameData", date], todayData);
 });
 
 router.get("/api/headline", async (ctx) => {
   console.log("ctx.request.url.pathname:", ctx.request.url.pathname);
   console.log("ctx.request.method:", ctx.request.method);
 
-  // get articles from the previous day if it's before 1am
-  const articles = checkTime(1)
-    ? await kv.get(["headlines", getDate(true)])
-    : await kv.get(["headlines", getDate()]);
+  const gameData = await kv.get(["gameData", date]);
 
-  console.log(articles);
+  console.log(gameData);
 
-  ctx.response.body = articles.value.headlines;
+  ctx.response.body = gameData.value.articles;
 });
 
 app.use(router.routes());
@@ -45,8 +68,6 @@ function sampleArray(array) {
 }
 
 async function getArticles() {
-  const numArticles = 10;
-
   const nytKey = getEnvVariable("NYT_KEY");
 
   /* possible sections: home, arts, automobiles, books/review, 
@@ -82,14 +103,7 @@ async function getArticles() {
     });
   }
 
-  const newArticles = {
-    timestamp: new Date().toISOString(),
-    date: getDate(),
-    headlines: randomArticles,
-  };
-  kv.set(["headlines", newArticles.date], newArticles);
-
-  return newArticles;
+  return randomArticles;
 }
 
 function getDate(yesterday = false) {
