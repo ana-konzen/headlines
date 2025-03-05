@@ -1,10 +1,10 @@
 // deno-lint-ignore-file
 
 import { changeScene, scenes } from "./main.js";
-import * as player from "./player.js";
-import * as host from "./host.js";
+import { makeId } from "./utilities.js";
 
 const numArticles = 10;
+const roundTime = 60;
 
 let me;
 let guests;
@@ -15,50 +15,46 @@ let chosenWord = "____";
 let articles = [];
 let headline;
 
-export function preload() {
-  partyConnect("wss://demoserver.p5party.org", "headlines-game-testt");
+let timer = roundTime;
 
-  host.preload();
-  player.preload();
+export function preload() {
+  partyConnect("wss://demoserver.p5party.org", "headlines-game");
 
   shared = partyLoadShared("shared");
   guests = partyLoadGuestShareds();
-  me = partyLoadMyShared();
+  me = partyLoadMyShared({
+    id: makeId(), // a unique string id
+    score: 0,
+  });
 }
 
 export function setup() {
-  if (partyIsHost()) host.setup();
-  player.setup();
   select("#next").mousePressed(() => {
     if (chosenWord === "____") {
       return;
     }
-
-    if (chosenWord === articles[headlineIndex].word) {
-      me.score++;
-    }
-    chosenWord = "____";
-    headlineIndex++;
-    if (headlineIndex >= numArticles) {
-      console.log("end");
-      changeScene(scenes.end);
-      return;
-    }
-    headline = articles[headlineIndex];
+    goToNextRound();
   });
 }
 export function update() {
+  if (frameCount % 60 === 0) timer--;
+  if (timer <= 0) {
+    goToNextRound();
+  }
+  select("#timer").html(timer);
   if (headlineIndex < numArticles) {
-    select("#headline").html(headline?.article?.replace("____", `<span class="answer">${chosenWord}</span>`));
+    select("#headline").html(`<div class="headline-text">${headline?.article?.replace("____", `<span class="answer">${chosenWord}</span>`)}</div>`);
   }
 }
 
 export function enter() {
+  document.body.classList.add('game-active');
   fetchHeadlines();
   select("#game").style("display", "block");
 }
 
 export function exit() {
+  document.body.classList.remove('game-active');
   select("#game").style("display", "none");
 }
 
@@ -66,16 +62,44 @@ function fetchHeadlines() {
   fetch("/api/headline")
     .then((response) => response.json())
     .then((responseArr) => {
-      console.log(responseArr);
       responseArr.forEach((responseObj) => {
-        const newButton = createButton(responseObj.word);
-        newButton.mousePressed(() => {
-          chosenWord = responseObj.word;
-          console.log(chosenWord);
-        });
-        newButton.parent("#optionsCont");
+        createOption(responseObj);
       });
       articles = shuffle(responseArr);
       headline = articles[headlineIndex];
     });
+}
+
+function goToNextRound() {
+  if (chosenWord === articles[headlineIndex].word) {
+    me.score++;
+  }
+  select(".disabled").removeClass("possible-option");
+  chosenWord = "____";
+  headlineIndex++;
+  timer = roundTime;
+  if (headlineIndex >= numArticles) {
+    console.log("end");
+    changeScene(scenes.end);
+    return;
+  }
+  headline = articles[headlineIndex];
+}
+
+function createOption(responseObj) {
+  const newOption = createButton(responseObj.word);
+  newOption.parent("#optionsCont");
+  newOption.addClass("possible-option option-button");
+  newOption.mousePressed(() => {
+    handleOptionPress(newOption, responseObj);
+  });
+}
+
+function handleOptionPress(option, responseObj) {
+  if (option.hasClass("disabled")) return;
+  chosenWord = responseObj.word;
+  selectAll(".possible-option").forEach((button) => {
+    button.removeClass("disabled");
+  });
+  option.addClass("disabled");
 }

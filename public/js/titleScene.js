@@ -1,7 +1,7 @@
 import { changeScene, scenes } from "./main.js";
 
 export function setup() {
-  select("#start").mousePressed(() => {
+  select("#startGame").mousePressed(() => {
     changeScene(scenes.play);
   });
 }
