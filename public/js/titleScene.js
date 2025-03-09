@@ -1,8 +1,16 @@
-import { changeScene, scenes } from "./main.js";
+import { changeScene, scenes, initializeParty } from "./main.js";
 
 export function setup() {
+  // Global mode button
   select("#startGame").mousePressed(() => {
     changeScene(scenes.countdown);
+  });
+
+  // Versus mode button
+  select("#versusButton").mousePressed(() => {
+    // Initialize p5.party when entering versus mode
+    initializeParty();
+    changeScene(scenes.versusEntry);
   });
 
   // How-to modal functionality

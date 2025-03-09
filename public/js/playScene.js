@@ -18,7 +18,7 @@ let headline;
 let timer = roundTime;
 
 export function preload() {
-  partyConnect("wss://demoserver.p5party.org", "headlines-game");
+  // partyConnect("wss://demoserver.p5party.org", "headlines-game");
 
   shared = partyLoadShared("shared");
   guests = partyLoadGuestShareds();
