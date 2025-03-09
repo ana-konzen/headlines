@@ -2,7 +2,7 @@ import { changeScene, scenes } from "./main.js";
 
 export function setup() {
   select("#startGame").mousePressed(() => {
-    changeScene(scenes.play);
+    changeScene(scenes.countdown);
   });
 
   // How-to modal functionality
