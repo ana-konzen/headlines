@@ -38,6 +38,7 @@ export function setup() {
         // Store the player name for later use
         const trimmedName = playerName.trim();
         localStorage.setItem("playerName", trimmedName);
+        localStorage.setItem("gameMode", "versus");
         console.log("Player name saved:", trimmedName);
 
         // Make sure p5.party is initialized

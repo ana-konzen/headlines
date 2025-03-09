@@ -39,7 +39,13 @@ export function setup() {
 export function update() {
   if (frameCount % 60 === 0) timer--;
   if (timer <= 0) {
-    changeScene(scenes.gameOver);
+    // Check if we're in versus mode
+    const gameMode = localStorage.getItem("gameMode");
+    if (gameMode === "versus") {
+      changeScene(scenes.versusLeaderboard);
+    } else {
+      changeScene(scenes.gameOver);
+    }
     return;
   }
   select("#timer").html(timer);
@@ -96,7 +102,13 @@ function goToNextRound() {
     headlineIndex++;
     if (headlineIndex >= numArticles) {
       console.log("end");
-      changeScene(scenes.end);
+      // Check if we're in versus mode
+      const gameMode = localStorage.getItem("gameMode");
+      if (gameMode === "versus") {
+        changeScene(scenes.versusLeaderboard);
+      } else {
+        changeScene(scenes.end);
+      }
       return;
     }
     headline = articles[headlineIndex];

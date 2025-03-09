@@ -53,9 +53,16 @@ export function setup() {
     changeScene(scenes.versusEntry);
   });
 
-  // Set up Start Game button (does nothing for now, but only visible to host)
+  // Set up Start Game button
   select("#startGameButton").mousePressed(() => {
-    console.log("Start Game button clicked - no functionality yet");
+    console.log("Start Game button clicked");
+    if (isHost) {
+      // Set game started flag in shared data
+      shared.gameStarted = true;
+      console.log("Game started by host");
+      // Host transitions to countdown scene
+      changeScene(scenes.countdown);
+    }
   });
 
   // Set up Invite Friends button (copies URL)
@@ -90,6 +97,21 @@ export function enter() {
     console.log("Updated my shared name to:", me.name);
   }
 
+  // Check if this client is the host (first player in the room)
+  isHost = partyIsHost();
+  console.log("Is host:", isHost);
+
+  // If this client is the host, initialize shared data
+  if (isHost) {
+    console.log("This client is the host with name:", me.name);
+    // Set the host ID in the shared data
+    shared.hostId = me.id;
+    hostId = me.id;
+  } else if (shared.hostId) {
+    // Get the host ID from shared data
+    hostId = shared.hostId;
+  }
+
   // Show the versus lobby screen
   select("#versusLobby").style("display", "block");
 
@@ -118,6 +140,12 @@ export function update() {
   // Update hostId if it changed
   if (shared.hostId !== hostId) {
     hostId = shared.hostId;
+  }
+
+  // Check if game has been started by host
+  if (shared.gameStarted && !isHost) {
+    console.log("Game started by host, joining game...");
+    changeScene(scenes.countdown);
   }
 }
 
