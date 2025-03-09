@@ -3,6 +3,6 @@
     "cliffy/": "https://deno.land/x/cliffy@v1.0.0-rc.3/"
   },
   "tasks": {
-    "start": "deno run --allow-net --allow-read --allow-env --allow-write src/main.js"
+    "start": "deno run --allow-net --allow-read --allow-env --allow-write --unstable-cron --unstable-kv src/main.js"
   }
 }

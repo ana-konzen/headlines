@@ -4,7 +4,7 @@ import { changeScene, scenes } from "./main.js";
 import { makeId } from "./utilities.js";
 
 const numArticles = 10;
-const roundTime = 20;
+const roundTime = 60;
 
 let me;
 let guests;
@@ -66,31 +66,45 @@ export function exit() {
 
 function fetchHeadlines() {
   fetch("/api/headline")
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((responseArr) => {
       responseArr.forEach((responseObj) => {
         createOption(responseObj);
       });
       articles = shuffle(responseArr);
       headline = articles[headlineIndex];
+    })
+    .catch((error) => {
+      console.error("Error fetching headlines:", error);
+      // Add fallback behavior or user notification
     });
 }
 
 function goToNextRound() {
-  if (chosenWord === articles[headlineIndex].word) {
-    me.score++;
-  }
-  select(".possible-option.disabled").removeClass("possible-option");
+  if (articles && articles.length > headlineIndex && articles[headlineIndex]) {
+    if (chosenWord === articles[headlineIndex].word) {
+      me.score++;
+    }
+    select(".possible-option.disabled").removeClass("possible-option");
 
-  chosenWord = "____";
-  headlineIndex++;
-  timer = roundTime;
-  if (headlineIndex >= numArticles) {
-    console.log("end");
-    changeScene(scenes.end);
-    return;
+    chosenWord = "____";
+    headlineIndex++;
+    timer = roundTime;
+    if (headlineIndex >= numArticles) {
+      console.log("end");
+      changeScene(scenes.end);
+      return;
+    }
+    headline = articles[headlineIndex];
+  } else {
+    console.error("Articles data is not available");
+    // Handle the error case
   }
-  headline = articles[headlineIndex];
 }
 
 function createOption(responseObj) {

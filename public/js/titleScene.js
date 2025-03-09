@@ -4,6 +4,15 @@ export function setup() {
   select("#startGame").mousePressed(() => {
     changeScene(scenes.play);
   });
+
+  // How-to modal functionality
+  select(".how-to img").mousePressed(() => {
+    select("#how-to-modal").addClass("show");
+  });
+
+  select(".back-arrow img").mousePressed(() => {
+    select("#how-to-modal").removeClass("show");
+  });
 }
 
 export function enter() {
