@@ -18,7 +18,8 @@ body.countdown-active {
 #end,
 #countdown,
 #versusEntry,
-#versusLobby {
+#versusLobby,
+#versusLeaderboard {
   position: fixed;
   inset: 0;
   padding: 20px;
@@ -35,7 +36,8 @@ body.countdown-active {
 }
 
 #game,
-#end {
+#end,
+#versusLeaderboard {
   background: #ffffff;
 }
 
@@ -546,6 +548,16 @@ body.countdown-active #countdown {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.player-score-item .player-name {
+  font-weight: 500;
+  text-align: left;
+}
+
+.player-score-item .player-score {
+  font-weight: bold;
+  color: #e15656;
 }
 
 .player-score-item.current-player {

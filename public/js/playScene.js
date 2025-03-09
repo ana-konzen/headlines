@@ -59,15 +59,47 @@ export function update() {
   }
 }
 
+// Function to reset the game state
+function resetGameState() {
+  // Reset game state variables
+  headlineIndex = 0;
+  chosenWord = "____";
+  articles = [];
+  headline = null;
+  timer = roundTime;
+
+  // Clear options container
+  select("#optionsCont").html("");
+}
+
 export function enter() {
+  // Reset game state
+  resetGameState();
+
+  // Reset score for non-versus mode
+  if (localStorage.getItem("gameMode") !== "versus") {
+    me.score = 0;
+  }
+
+  // Add game-active class to body
   document.body.classList.add("game-active");
+
+  // Fetch new headlines
   fetchHeadlines();
+
+  // Show game screen
   select("#game").style("display", "block");
 }
 
 export function exit() {
+  // Remove game-active class from body
   document.body.classList.remove("game-active");
+
+  // Hide game screen
   select("#game").style("display", "none");
+
+  // Reset game state
+  resetGameState();
 }
 
 function fetchHeadlines() {
@@ -134,4 +166,24 @@ function handleOptionPress(option, responseObj) {
     button.removeClass("disabled");
   });
   option.addClass("disabled");
+}
+
+// Function to shuffle an array (Fisher-Yates algorithm)
+function shuffle(array) {
+  let currentIndex = array.length;
+  let temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle
+  while (currentIndex !== 0) {
+    // Pick a remaining element
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // Swap it with the current element
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }

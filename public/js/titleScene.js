@@ -3,6 +3,8 @@ import { changeScene, scenes, initializeParty } from "./main.js";
 export function setup() {
   // Global mode button
   select("#startGame").mousePressed(() => {
+    // Set game mode to global
+    localStorage.setItem("gameMode", "global");
     changeScene(scenes.countdown);
   });
 

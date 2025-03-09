@@ -57,7 +57,9 @@ export function enter() {
 
       const playerName = player.name || "Player";
       const correctText = player.score === 1 ? "CORRECT" : "CORRECT";
-      playerDiv.html(`${playerName}: ${player.score} ${correctText}`);
+      playerDiv.html(
+        `<span class="player-name">${playerName}</span><span class="player-score">${player.score} ${correctText}</span>`
+      );
 
       playerDiv.parent(leaderboardDiv);
     }
