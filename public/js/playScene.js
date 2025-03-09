@@ -39,7 +39,8 @@ export function setup() {
 export function update() {
   if (frameCount % 60 === 0) timer--;
   if (timer <= 0) {
-    goToNextRound();
+    changeScene(scenes.gameOver);
+    return;
   }
   select("#timer").html(timer);
   if (headlineIndex < numArticles) {
@@ -59,7 +60,6 @@ export function enter() {
 }
 
 export function exit() {
-  fetch(`/api/setScore?score=${me.score}`);
   document.body.classList.remove("game-active");
   select("#game").style("display", "none");
 }
@@ -94,7 +94,6 @@ function goToNextRound() {
 
     chosenWord = "____";
     headlineIndex++;
-    timer = roundTime;
     if (headlineIndex >= numArticles) {
       console.log("end");
       changeScene(scenes.end);

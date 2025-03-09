@@ -18,6 +18,7 @@
 import * as titleScene from "./titleScene.js";
 import * as playScene from "./playScene.js";
 import * as endScene from "./endScene.js";
+import * as gameOverScene from "./gameOverScene.js";
 
 let currentScene; // the scene being displayed
 
@@ -26,6 +27,7 @@ export const scenes = {
   title: titleScene,
   play: playScene,
   end: endScene,
+  gameOver: gameOverScene,
 };
 
 // p5.js auto detects your setup() and draw() before "installing" itself but
