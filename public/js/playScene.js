@@ -49,6 +49,12 @@ export function update() {
         `<span class="answer">${chosenWord}</span>`
       )}</div>`
     );
+
+    let answerElement = select(".answer");
+    if (answerElement) {
+      answerElement.addClass("animate");
+      setTimeout(() => answerElement.removeClass("animate"), 600);
+    }
   }
 }
 
