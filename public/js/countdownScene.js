@@ -17,10 +17,10 @@ export function enter() {
     if (countdownTimer && countdownValue >= 0) {
       countdownTimer.innerText = countdownValue;
 
-      countdownTimer.style.transform = "scale(1.3)"; 
+      countdownTimer.style.transform = "scale(1.1)"; 
       setTimeout(() => {
         countdownTimer.style.transform = "scale(1)";
-      }, 200); 
+      }, 100); 
     }
 
     if (countdownValue < 0) {
