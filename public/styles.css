@@ -271,3 +271,7 @@ body.game-over #leaderboard {
   font-weight: bold;
   color: #000000; 
 }
+
+#answer {
+  text-decoration: underline;
+}
