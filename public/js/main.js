@@ -16,6 +16,7 @@
  */
 
 import * as titleScene from "./titleScene.js";
+import * as countdownScene from "./countdownScene.js";
 import * as playScene from "./playScene.js";
 import * as endScene from "./endScene.js";
 
@@ -24,6 +25,7 @@ let currentScene; // the scene being displayed
 // all the available scenes
 export const scenes = {
   title: titleScene,
+  countdown: countdownScene,
   play: playScene,
   end: endScene,
 };
