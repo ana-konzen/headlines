@@ -6,6 +6,7 @@ let countdownInterval;
 export function enter() {
   countdownValue = 3; 
   const countdownTimer = document.getElementById("countdown-timer");
+  document.body.classList.add("countdown-active");
 
   if (countdownTimer) {
     countdownTimer.innerText = countdownValue;
@@ -32,4 +33,5 @@ export function enter() {
 
 export function exit() {
   clearInterval(countdownInterval);
+  document.body.classList.remove("countdown-active");
 }

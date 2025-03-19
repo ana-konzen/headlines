@@ -11,7 +11,8 @@ body {
 
 #start,
 #game,
-#end {
+#end,
+#countdown {
   position: fixed;
   inset: 0;
   padding: 20px;
@@ -229,6 +230,15 @@ body.game-over #game {
 }
 body.game-over #leaderboard {
   display: block;
+}
+
+body.countdown-active #countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #e15656;
+  color: white;
 }
 
 @media (max-width: 600px) {
