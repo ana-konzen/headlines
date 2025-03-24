@@ -11,7 +11,7 @@ export function preload() {
 export function setup() {
   // Create the Check Leaderboard button
   select("#checkLeaderboard").mousePressed(() => {
-    changeScene(scenes.end);
+    changeScene(scenes.results);
   });
 }
 

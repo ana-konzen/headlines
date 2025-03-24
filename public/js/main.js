@@ -23,6 +23,7 @@ import * as countdownScene from "./countdownScene.js";
 import * as versusEntryScene from "./versusEntryScene.js";
 import * as versusLobbyScene from "./versusLobbyScene.js";
 import * as versusLeaderboardScene from "./versusLeaderboardScene.js";
+import * as resultsScene from "./resultsScene.js";
 
 let currentScene; // the scene being displayed
 let partyInitialized = false;
@@ -34,6 +35,7 @@ export const scenes = {
   play: playScene,
   end: endScene,
   gameOver: gameOverScene,
+  results: resultsScene,
   versusEntry: versusEntryScene,
   versusLobby: versusLobbyScene,
   versusLeaderboard: versusLeaderboardScene,

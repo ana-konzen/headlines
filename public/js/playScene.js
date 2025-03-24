@@ -14,8 +14,8 @@ let headlineIndex = 0;
 let chosenWord = "____";
 let articles = [];
 let headline;
-
 let timer = roundTime;
+let userAnswers = []; // Array to store user's answers
 
 export function preload() {
   // partyConnect("wss://demoserver.p5party.org", "headlines-game");
@@ -39,12 +39,18 @@ export function setup() {
 export function update() {
   if (frameCount % 60 === 0) timer--;
   if (timer <= 0) {
+    // Store the last answer if there is one
+    if (headlineIndex < articles.length) {
+      userAnswers[headlineIndex] = chosenWord;
+      localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+    }
+
     // Check if we're in versus mode
     const gameMode = localStorage.getItem("gameMode");
     if (gameMode === "versus") {
       changeScene(scenes.versusLeaderboard);
     } else {
-      changeScene(scenes.gameOver);
+      changeScene(scenes.results); // Change to results scene instead of gameOver
     }
     return;
   }
@@ -133,6 +139,7 @@ function resetGameState() {
   articles = [];
   headline = null;
   timer = roundTime;
+  userAnswers = Array(numArticles).fill("____");
 
   // Clear options container
   select("#optionsCont").html("");
@@ -142,10 +149,16 @@ export function enter() {
   // Reset game state
   resetGameState();
 
+  // Reset userAnswers array
+  userAnswers = Array(numArticles).fill("____");
+
   // Reset score for non-versus mode
   if (localStorage.getItem("gameMode") !== "versus") {
     me.score = 0;
   }
+
+  // Remove scoreSaved flag
+  localStorage.removeItem("scoreSaved");
 
   // Add game-active class to body
   document.body.classList.add("game-active");
@@ -185,6 +198,9 @@ function fetchHeadlines() {
       });
       articles = shuffle(responseArr);
       headline = articles[headlineIndex];
+
+      // Save articles to localStorage for the results screen
+      localStorage.setItem("articlesData", JSON.stringify(articles));
     })
     .catch((error) => {
       console.error("Error fetching headlines:", error);
@@ -194,6 +210,12 @@ function fetchHeadlines() {
 
 function goToNextRound() {
   if (articles && articles.length > headlineIndex && articles[headlineIndex]) {
+    // Store the user's chosen word in the userAnswers array
+    userAnswers[headlineIndex] = chosenWord;
+
+    // Save userAnswers to localStorage
+    localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+
     if (chosenWord === articles[headlineIndex].word) {
       me.score++;
     }
@@ -208,7 +230,7 @@ function goToNextRound() {
       if (gameMode === "versus") {
         changeScene(scenes.versusLeaderboard);
       } else {
-        changeScene(scenes.end);
+        changeScene(scenes.results); // Change to results scene instead of end
       }
       return;
     }
