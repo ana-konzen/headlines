@@ -56,6 +56,72 @@ export function update() {
         `<span class="answer">${chosenWord}</span>`
       )}</div>`
     );
+
+    // Update progress indicator
+    updateProgressIndicator();
+  }
+}
+
+// Function to create progress indicator dots
+function createProgressIndicator() {
+  // First, remove any existing progress indicator
+  if (select("#progressIndicator")) {
+    select("#progressIndicator").remove();
+  }
+
+  // Create container for progress dots
+  const progressContainer = createDiv();
+  progressContainer.id("progressIndicator");
+
+  // Find the optionsCont and next button elements
+  const optionsContainer = select("#optionsCont");
+  const nextButton = select("#next");
+
+  // Insert the progressContainer between optionsCont and next button
+  if (
+    optionsContainer &&
+    nextButton &&
+    optionsContainer.elt &&
+    nextButton.elt
+  ) {
+    // Insert the progress container after the options container
+    const gameContainer = select("#game").elt;
+    gameContainer.insertBefore(progressContainer.elt, nextButton.elt);
+  } else {
+    // Fallback: just add to the game container
+    progressContainer.parent("#game");
+  }
+
+  // Create 10 dots
+  for (let i = 0; i < numArticles; i++) {
+    const dot = createDiv();
+    dot.addClass("progress-dot");
+    dot.id(`dot-${i}`);
+    dot.parent(progressContainer);
+  }
+
+  // Initial update
+  updateProgressIndicator();
+}
+
+// Function to update progress indicator dots
+function updateProgressIndicator() {
+  for (let i = 0; i < numArticles; i++) {
+    const dot = select(`#dot-${i}`);
+
+    // Clear previous classes
+    dot.removeClass("completed");
+    dot.removeClass("current");
+    dot.removeClass("upcoming");
+
+    // Set appropriate class based on progress
+    if (i < headlineIndex) {
+      dot.addClass("completed"); // Past questions (black)
+    } else if (i === headlineIndex) {
+      dot.addClass("current"); // Current question (red)
+    } else {
+      dot.addClass("upcoming"); // Future questions (white)
+    }
   }
 }
 
@@ -86,6 +152,9 @@ export function enter() {
 
   // Fetch new headlines
   fetchHeadlines();
+
+  // Create progress indicator
+  createProgressIndicator();
 
   // Show game screen
   select("#game").style("display", "block");
@@ -144,6 +213,9 @@ function goToNextRound() {
       return;
     }
     headline = articles[headlineIndex];
+
+    // Update progress indicator when going to next round
+    updateProgressIndicator();
   } else {
     console.error("Articles data is not available");
     // Handle the error case

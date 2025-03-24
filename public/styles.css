@@ -56,6 +56,51 @@ h1 {
   padding: 0 1rem;
 }
 
+/* Progress Indicator Styles */
+#progressIndicator {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 30px auto;
+  max-width: 600px;
+  padding: 0 20px;
+}
+
+@media (max-width: 600px) {
+  #progressIndicator {
+    gap: 8px;
+  }
+
+  .progress-dot {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.progress-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #000;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
+}
+
+.progress-dot.completed {
+  background-color: #000;
+  border-color: #000;
+}
+
+.progress-dot.current {
+  background-color: #e15656;
+  border-color: #000;
+}
+
+.progress-dot.upcoming {
+  background-color: #fff;
+  border-color: #000;
+}
+
 .button-container {
   display: flex;
   flex-direction: column;
