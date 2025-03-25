@@ -1,9 +1,3 @@
-// Add this near the top of src/main.js after imports
-console.log("Environment variables check:");
-console.log("NYT_KEY:", getEnvVariable("NYT_KEY") ? "Found" : "Not found");
-console.log("NYT_SECRET:", getEnvVariable("NYT_SECRET") ? "Found" : "Not found");
-console.log("OPENAI_API_KEY:", getEnvVariable("OPENAI_API_KEY") ? "Found" : "Not found");
-
 // deno-lint-ignore-file
 
 import { Application, Router } from "https://deno.land/x/oak@v12.6.1/mod.ts";
@@ -20,8 +14,6 @@ const router = new Router();
 const kv = await Deno.openKv();
 const date = checkTime(1) ? getDate(true) : getDate();
 const numArticles = 10;
-
-console.log("Current date for game data:", date);
 
 Deno.cron("Get new articles", "50 0 * * *", async () => {
   console.log("Getting new articles...");
@@ -206,9 +198,7 @@ function sampleArray(array) {
 
 async function getArticles() {
   try {
-    console.log("Starting to fetch articles from NYT API...");
     const nytKey = getEnvVariable("NYT_KEY");
-    console.log("NYT API Key:", nytKey ? "Found (length: " + nytKey.length + ")" : "Not found");
 
     /* possible sections: home, arts, automobiles, books/review, 
     business, fashion, food, health, insider, magazine, movies,
@@ -216,7 +206,6 @@ async function getArticles() {
     sundayreview, technology, theater, t-magazine, travel, upshot, us, and world. */
 
     const section = "home";
-    console.log("Fetching from NYT section:", section);
 
     const nytResponse = await fetch(
       `https://api.nytimes.com/svc/topstories/v2/${section}.json?api-key=${nytKey}`
@@ -230,36 +219,30 @@ async function getArticles() {
     }
 
     const articles = await nytResponse.json();
-    console.log(`Successfully fetched ${articles.results?.length || 0} articles from NYT API`);
 
     if (!articles.results || articles.results.length === 0) {
-      console.error("No articles found in NYT API response");
       throw new Error("No articles found in NYT API response");
     }
 
     const randomArticles = [];
 
-    console.log("Starting to process articles with OpenAI...");
     for (let i = 0; i < numArticles; i++) {
-      console.log(`Processing article ${i + 1}/${numArticles}...`);
       let randomArticle = sampleArray(articles.results);
 
       while (randomArticles.some((article) => article.og_article === randomArticle.title)) {
         randomArticle = sampleArray(articles.results);
       }
 
-      console.log(`Selected headline: "${randomArticle.title}"`);
       try {
-        console.log("Calling OpenAI to identify important word...");
         const word = await promptGPT(
           `This is a headline from the New York Times: ${randomArticle.title}. Identify one word that you think is the most important in this headline (must be a noun, a proper noun if it's available). Only reply with the word, don't say anything else.`
         );
-        console.log(`OpenAI identified word: "${word}"`);
 
         randomArticles.push({
           og_article: randomArticle.title,
           section: randomArticle.section,
           article: randomArticle.title.replace(word, "____"),
+          url: randomArticle.url,
           word: word,
         });
       } catch (error) {
@@ -268,7 +251,6 @@ async function getArticles() {
       }
     }
 
-    console.log(`Successfully processed ${randomArticles.length} articles`);
     return randomArticles;
   } catch (error) {
     console.error("Error in getArticles function:", error);
