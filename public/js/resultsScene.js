@@ -82,9 +82,7 @@ export function enter() {
       if (wordPosition >= 0) {
         // Create a version with both user's answer and correct word
         const beforeWord = article.og_article.substring(0, wordPosition);
-        const afterWord = article.og_article.substring(
-          wordPosition + article.word.length
-        );
+        const afterWord = article.og_article.substring(wordPosition + article.word.length);
 
         displayHeadline = `${beforeWord}<strike class="wrong-answer">${userAnswer}</strike> <span class="answer">${article.word}</span>${afterWord}`;
       }
@@ -111,8 +109,4 @@ export function enter() {
 export function exit() {
   // Hide the results screen
   select("#results").style("display", "none");
-}
-
-export function update() {
-  // Nothing to update
 }

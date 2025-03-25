@@ -38,11 +38,3 @@ export function exit() {
   document.body.classList.remove("countdown-active");
   clearInterval(countdownInterval);
 }
-
-export function update() {
-  // Any per-frame updates if needed
-}
-
-export function draw() {
-  // Any custom drawing if needed
-}

@@ -27,7 +27,3 @@ export function exit() {
   // Hide the game over screen
   select("#gameOver").style("display", "none");
 }
-
-export function update() {
-  // Nothing to update
-}

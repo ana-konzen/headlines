@@ -7,8 +7,6 @@ const numArticles = 10;
 const roundTime = 60;
 
 let me;
-let guests;
-let shared;
 
 let headlineIndex = 0;
 let chosenWord = "____";
@@ -20,8 +18,6 @@ let userAnswers = []; // Array to store user's answers
 export function preload() {
   // partyConnect("wss://demoserver.p5party.org", "headlines-game");
 
-  shared = partyLoadShared("shared");
-  guests = partyLoadGuestShareds();
   me = partyLoadMyShared({
     id: makeId(), // a unique string id
     score: 0,
@@ -84,12 +80,7 @@ function createProgressIndicator() {
   const nextButton = select("#next");
 
   // Insert the progressContainer between optionsCont and next button
-  if (
-    optionsContainer &&
-    nextButton &&
-    optionsContainer.elt &&
-    nextButton.elt
-  ) {
+  if (optionsContainer && nextButton && optionsContainer.elt && nextButton.elt) {
     // Insert the progress container after the options container
     const gameContainer = select("#game").elt;
     gameContainer.insertBefore(progressContainer.elt, nextButton.elt);
@@ -260,24 +251,4 @@ function handleOptionPress(option, responseObj) {
     button.removeClass("disabled");
   });
   option.addClass("disabled");
-}
-
-// Function to shuffle an array (Fisher-Yates algorithm)
-function shuffle(array) {
-  let currentIndex = array.length;
-  let temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle
-  while (currentIndex !== 0) {
-    // Pick a remaining element
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // Swap it with the current element
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
 }
