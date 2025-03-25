@@ -1,4 +1,4 @@
-import { changeScene, scenes, initializeParty } from "./main.js";
+import { changeScene, scenes } from "./main.js";
 
 export function setup() {
   // Global mode button
@@ -6,13 +6,6 @@ export function setup() {
     // Set game mode to global
     localStorage.setItem("gameMode", "global");
     changeScene(scenes.countdown);
-  });
-
-  // Versus mode button
-  select("#versusButton").mousePressed(() => {
-    // Initialize p5.party when entering versus mode
-    initializeParty();
-    changeScene(scenes.versusEntry);
   });
 
   // How-to modal functionality

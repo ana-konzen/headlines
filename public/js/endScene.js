@@ -2,15 +2,11 @@
 
 import { changeScene, scenes } from "./main.js";
 
-let guests;
-let shared;
 let me;
 
 const maxPoints = 10;
 
 export function preload() {
-  shared = partyLoadShared("shared");
-  guests = partyLoadGuestShareds();
   me = partyLoadMyShared();
 }
 
@@ -50,16 +46,6 @@ export function enter() {
     });
   });
   select(`.score-${me.score}`).style("background-color", "#e15656");
-  // guests.forEach((guest, index) => {
-  //   const guestDiv = createDiv(`Player ${index + 1}: <span class=${guest.id}>${guest.score}</span>`);
-  //   guestDiv.parent("#scores");
-  // });
-}
-
-export function update() {
-  guests.forEach((guest) => {
-    select(`.${guest.id}`).html(guest.score);
-  });
 }
 
 export function exit() {

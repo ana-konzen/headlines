@@ -46,45 +46,8 @@
         <button id="startGame">Global</button>
         <button id="versusButton" class="secondary">Versus</button>
       </div>
-      <div id="numPlayersCont">
-        <span id="numPlayers"></span> people played today
-      </div>
+      <div id="numPlayersCont"><span id="numPlayers"></span> people played today</div>
       <div class="date">March 5, 2025</div>
-    </div>
-
-    <!-- Versus Entry Screen -->
-    <div id="versusEntry">
-      <div class="back-button">←</div>
-      <h1>Versus Mode</h1>
-      <p class="subtitle">Play with friends in real-time</p>
-      <div class="input-container">
-        <label for="playerNameInput">Enter your name</label>
-        <input
-          type="text"
-          id="playerNameInput"
-          maxlength="20"
-          placeholder="Your name"
-        />
-      </div>
-      <div class="button-container">
-        <button id="enterLobbyButton" disabled>Enter Lobby</button>
-      </div>
-    </div>
-
-    <!-- Versus Lobby Screen -->
-    <div id="versusLobby">
-      <div class="back-button">←</div>
-      <h1>Lobby</h1>
-      <div id="playerList" class="player-list"></div>
-      <div id="waitingMessage" class="waiting-message">
-        Waiting for host to start...
-      </div>
-      <div class="button-container">
-        <button id="startGameButton">Start Game</button>
-        <button id="inviteFriendsButton" class="secondary">
-          Invite Friends
-        </button>
-      </div>
     </div>
 
     <div id="countdown">
@@ -113,9 +76,7 @@
     </div>
 
     <div id="results">
-      <div class="score-display">
-        <span id="player-score">0</span> / <span id="total-questions">10</span>
-      </div>
+      <div class="score-display"><span id="player-score">0</span> / <span id="total-questions">10</span></div>
       <div id="headlines-results-container">
         <!-- Headlines with correct/incorrect indicators will be added here -->
       </div>
@@ -130,15 +91,6 @@
           Leaderboard
           <div id="scores"></div>
         </div>
-      </div>
-    </div>
-
-    <!-- Versus Leaderboard Screen -->
-    <div id="versusLeaderboard">
-      <div class="back-button">←</div>
-      <div class="end-content">
-        <h1>Game Results</h1>
-        <div id="versusScores" class="versus-scores"></div>
       </div>
     </div>
 

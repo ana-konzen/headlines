@@ -1,14 +1,8 @@
 // Add this near the top of src/main.js after imports
 console.log("Environment variables check:");
 console.log("NYT_KEY:", getEnvVariable("NYT_KEY") ? "Found" : "Not found");
-console.log(
-  "NYT_SECRET:",
-  getEnvVariable("NYT_SECRET") ? "Found" : "Not found"
-);
-console.log(
-  "OPENAI_API_KEY:",
-  getEnvVariable("OPENAI_API_KEY") ? "Found" : "Not found"
-);
+console.log("NYT_SECRET:", getEnvVariable("NYT_SECRET") ? "Found" : "Not found");
+console.log("OPENAI_API_KEY:", getEnvVariable("OPENAI_API_KEY") ? "Found" : "Not found");
 
 // deno-lint-ignore-file
 
@@ -42,7 +36,7 @@ Deno.cron("Get new articles", "50 0 * * *", async () => {
 });
 
 // Initialize game data if it doesn't exist
-const initGameData = async () => {
+async function initGameData() {
   try {
     console.log("Checking for existing game data...");
     const data = await kv.get(["gameData", date]);
@@ -93,38 +87,26 @@ const initGameData = async () => {
       }
     } else {
       console.log("Game data already exists for today.");
-      console.log(
-        `Found ${data.value.articles?.length || 0} articles in existing data.`
-      );
+      console.log(`Found ${data.value.articles?.length || 0} articles in existing data.`);
       // Check if we have test data and real data is now available
-      if (
-        data.value.articles &&
-        data.value.articles[0]?.section === "fallback"
-      ) {
-        console.log(
-          "Existing data contains fallback articles. Attempting to fetch real articles..."
-        );
+      if (data.value.articles && data.value.articles[0]?.section === "fallback") {
+        console.log("Existing data contains fallback articles. Attempting to fetch real articles...");
         try {
           const articles = await getArticles();
-          console.log(
-            `Successfully fetched ${articles.length} real articles to replace fallback data`
-          );
+          console.log(`Successfully fetched ${articles.length} real articles to replace fallback data`);
 
           data.value.articles = articles;
           await kv.set(["gameData", date], data.value);
           console.log("Updated game data with real articles.");
         } catch (error) {
-          console.error(
-            "Failed to replace fallback data with real articles:",
-            error
-          );
+          console.error("Failed to replace fallback data with real articles:", error);
         }
       }
     }
   } catch (error) {
     console.error("Error during game data initialization:", error);
   }
-};
+}
 
 // Call the initialization function
 await initGameData();
@@ -226,10 +208,7 @@ async function getArticles() {
   try {
     console.log("Starting to fetch articles from NYT API...");
     const nytKey = getEnvVariable("NYT_KEY");
-    console.log(
-      "NYT API Key:",
-      nytKey ? "Found (length: " + nytKey.length + ")" : "Not found"
-    );
+    console.log("NYT API Key:", nytKey ? "Found (length: " + nytKey.length + ")" : "Not found");
 
     /* possible sections: home, arts, automobiles, books/review, 
     business, fashion, food, health, insider, magazine, movies,
@@ -244,20 +223,14 @@ async function getArticles() {
     );
 
     if (!nytResponse.ok) {
-      console.error(
-        `NYT API error: ${nytResponse.status} ${nytResponse.statusText}`
-      );
+      console.error(`NYT API error: ${nytResponse.status} ${nytResponse.statusText}`);
       const errorText = await nytResponse.text();
       console.error("NYT API error details:", errorText);
       throw new Error(`NYT API returned status ${nytResponse.status}`);
     }
 
     const articles = await nytResponse.json();
-    console.log(
-      `Successfully fetched ${
-        articles.results?.length || 0
-      } articles from NYT API`
-    );
+    console.log(`Successfully fetched ${articles.results?.length || 0} articles from NYT API`);
 
     if (!articles.results || articles.results.length === 0) {
       console.error("No articles found in NYT API response");
@@ -271,11 +244,7 @@ async function getArticles() {
       console.log(`Processing article ${i + 1}/${numArticles}...`);
       let randomArticle = sampleArray(articles.results);
 
-      while (
-        randomArticles.some(
-          (article) => article.og_article === randomArticle.title
-        )
-      ) {
+      while (randomArticles.some((article) => article.og_article === randomArticle.title)) {
         randomArticle = sampleArray(articles.results);
       }
 
@@ -311,9 +280,10 @@ function getDate(yesterday = false) {
   const today = new Date();
   if (yesterday) today.setDate(today.getDate() - 1);
 
-  return `${String(today.getMonth() + 1).padStart(2, "0")}-${String(
-    today.getDate()
-  ).padStart(2, "0")}-${today.getFullYear()}`;
+  return `${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(
+    2,
+    "0"
+  )}-${today.getFullYear()}`;
 }
 
 function checkTime(time, dateToCheck = new Date()) {
@@ -324,11 +294,7 @@ function checkTime(time, dateToCheck = new Date()) {
     dateToCheck.getMonth(),
     dateToCheck.getDate()
   );
-  const nowMidnight = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate()
-  );
+  const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   if (dateToCheckMidnight < nowMidnight) {
     return true;
