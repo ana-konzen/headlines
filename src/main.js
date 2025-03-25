@@ -237,6 +237,7 @@ async function getArticles() {
         const word = await promptGPT(
           `This is a headline from the New York Times: ${randomArticle.title}. Identify one word that you think is the most important in this headline (must be a noun, a proper noun if it's available). Only reply with the word, don't say anything else.`
         );
+        console.log(randomArticle.url);
 
         randomArticles.push({
           og_article: randomArticle.title,

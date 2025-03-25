@@ -61,6 +61,9 @@ export function enter() {
     // Create READ button
     const readButton = createButton("READ");
     readButton.addClass("read-button");
+    readButton.mousePressed(() => {
+      window.open(article.url, "_blank");
+    });
 
     // Add controls to the headline item
     controls.child(checkMark);

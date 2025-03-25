@@ -545,6 +545,7 @@ body.game-over #leaderboard {
   padding: 5px 10px;
   background-color: white;
   border: 1px solid #ddd;
+  color: black;
   border-radius: 5px;
   font-size: 0.9rem;
 }
