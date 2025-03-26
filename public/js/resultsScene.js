@@ -66,7 +66,7 @@ export function enter() {
     });
 
     // Add controls to the headline item
-    controls.child(checkMark);
+    controls.child(checkMark); 
     controls.child(readButton);
     headlineItem.child(controls);
 
