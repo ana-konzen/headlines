@@ -492,8 +492,9 @@ body.game-over #leaderboard {
 }
 
 .headline-result-item {
-  background-color: #f5f5f5;
-  border-radius: 10px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #ddd;
   padding: 15px;
   position: relative;
 }
@@ -567,21 +568,22 @@ body.game-over #leaderboard {
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80%;
-  max-width: 300px;
-  padding: 15px;
-  background-color: black;
+  width: auto;
+  background-color: #000;
   color: white;
   border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: bold;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  border-radius: 100px;
   cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
   z-index: 10;
 }
 
 #goToLeaderboard:hover {
-  background-color: #333;
+  opacity: 0.9;
+  transform: translateX(-50%) translateY(-1px);
 }
 
 #checkLeaderboard {
