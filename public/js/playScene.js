@@ -14,6 +14,9 @@ let articles = [];
 let headline;
 let timer = roundTime;
 let userAnswers = []; // Array to store user's answers
+let lastChosenWord = "____";
+let currentLetterIndex = 0;
+let typewriterInterval;
 
 export function preload() {
   // partyConnect("wss://demoserver.p5party.org", "headlines-game");
@@ -35,31 +38,43 @@ export function setup() {
 export function update() {
   if (frameCount % 60 === 0) timer--;
   if (timer <= 0) {
-    // Store the last answer if there is one
     if (headlineIndex < articles.length) {
       userAnswers[headlineIndex] = chosenWord;
       localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
     }
 
-    // Check if we're in versus mode
     const gameMode = localStorage.getItem("gameMode");
     if (gameMode === "versus") {
       changeScene(scenes.versusLeaderboard);
     } else {
-      changeScene(scenes.results); // Change to results scene instead of gameOver
+      changeScene(scenes.results);
     }
     return;
   }
   select("#timer").html(timer);
   if (headlineIndex < numArticles) {
-    select("#headline").html(
-      `<div class="headline-text">${headline?.article?.replace(
-        "____",
-        `<span class="answer">${chosenWord}</span>`
-      )}</div>`
-    );
+    if (chosenWord !== lastChosenWord) {
+      currentLetterIndex = 0;
+      clearInterval(typewriterInterval);
+      
+      typewriterInterval = setInterval(() => {
+        if (currentLetterIndex <= chosenWord.length) {
+          const currentWord = chosenWord.slice(0, currentLetterIndex);
+          select("#headline").html(
+            `<div class="headline-text">${headline?.article?.replace(
+              "____",
+              `<span class="answer">${currentWord}</span>`
+            )}</div>`
+          );
+          currentLetterIndex++;
+        } else {
+          clearInterval(typewriterInterval);
+        }
+      }, 100);
+      
+      lastChosenWord = chosenWord;
+    }
 
-    // Update progress indicator
     updateProgressIndicator();
   }
 }
@@ -190,12 +205,14 @@ function fetchHeadlines() {
       articles = shuffle(responseArr);
       headline = articles[headlineIndex];
 
-      // Save articles to localStorage for the results screen
       localStorage.setItem("articlesData", JSON.stringify(articles));
+
+      select("#headline").html(
+        `<div class="headline-text">${headline?.article || ""}</div>`
+      );
     })
     .catch((error) => {
       console.error("Error fetching headlines:", error);
-      // Add fallback behavior or user notification
     });
 }
 

@@ -105,9 +105,15 @@ h1 {
 
 #versusButton {
   background: rgb(167, 167, 167);
-  color: rgb(205, 205, 205);
+  color: rgb(255, 255, 255);
   border: none;
   opacity: 1;
+}
+
+#versusButton span {
+  display: block;
+  font-size: 12px;
+  color: #ffffff;
 }
 
 button {
@@ -679,4 +685,9 @@ body.countdown-active #countdown {
   background-color: #ffe8e8;
   border-left: 5px solid #e15656;
   font-weight: bold;
+}
+
+.answer {
+  font-weight: bold;
+  color: #000;
 }

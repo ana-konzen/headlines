@@ -20,6 +20,12 @@ export function setup() {
 
 export function enter() {
   select("#start").style("display", "block");
+  
+  const today = new Date();
+  const options = { month: 'long', day: 'numeric', year: 'numeric' };
+  const dateString = today.toLocaleDateString('en-US', options);
+  select(".date").html(dateString);
+
   fetch("/api/numPlayers").then((response) => {
     response.json().then((numPlayers) => {
       console.log("numPlayers:", numPlayers);
