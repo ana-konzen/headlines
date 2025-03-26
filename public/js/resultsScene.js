@@ -59,7 +59,7 @@ export function enter() {
     checkMark.html("✓");
 
     // Create READ button
-    const readButton = createButton("READ");
+    const readButton = createButton("READ ARTICLE");
     readButton.addClass("read-button");
     readButton.mousePressed(() => {
       window.open(article.url, "_blank");

@@ -527,12 +527,22 @@ body.game-over #leaderboard {
 }
 
 .headline-result-item .read-button {
-  padding: 5px 10px;
-  background-color: white;
-  border: 1px solid #ddd;
-  color: black;
-  border-radius: 5px;
-  font-size: 0.9rem;
+  background-color: transparent !important;
+  color: #000 !important;
+  border: 1px solid #ddd !important;
+  border-radius: 100px !important;
+  padding: 8px 20px !important;
+  font-size: 0.8rem !important;
+  font-weight: normal !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  text-transform: uppercase !important;
+}
+
+.headline-result-item .read-button::after {
+  content: ">" !important;
+  font-weight: normal !important;
 }
 
 .headline-text-result {
