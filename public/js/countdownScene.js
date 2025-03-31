@@ -24,14 +24,14 @@ export function enter() {
     countdownValue--;
     select(".countdown-number").html(countdownValue);
 
-    if (countdownValue <= 0) {
+    if (countdownValue <= 1) {
       clearInterval(countdownInterval);
       setTimeout(() => {
         exit();
         changeScene(scenes.play);
       }, 500); // Short delay before transitioning to game
     }
-  }, 1000);
+  }, 500);
 }
 
 export function exit() {
