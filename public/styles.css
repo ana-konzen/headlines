@@ -7,12 +7,6 @@ body {
   overflow-x: hidden;
 }
 
-body.game-active,
-body.countdown-active {
-  position: fixed;
-  inset: 0;
-}
-
 #p5_loading {
   position: absolute;
   top: 0;
@@ -344,21 +338,6 @@ button[disabled] {
   right: 0;
   text-align: center;
   font-size: 1.2rem;
-}
-
-body.game-active #game,
-body.game-over #end {
-  display: flex;
-  flex-direction: column;
-}
-body.game-active #next {
-  display: block;
-}
-body.game-over #game {
-  display: none;
-}
-body.game-over #leaderboard {
-  display: block;
 }
 
 @media (max-width: 600px) {

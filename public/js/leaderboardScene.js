@@ -11,12 +11,7 @@ export function preload() {
 }
 
 export function setup() {
-  select("#end").html(`
-    <div id="user-score-message"></div>
-    <div id="leaderboard-container">
-      <h1>Leaderboard</h1>
-      <p class="subtitle">global answer distribution</p>
-      <div id="scores">
+  select("#scores").html(`
         ${Array.from(
           { length: maxPoints },
           (_, i) => `
@@ -30,14 +25,11 @@ export function setup() {
           </div>
         `
         ).join("")}
-      </div>
-    </div>
   `);
 }
 
 export function enter() {
-  document.body.classList.add("game-over");
-  select("#end").style("display", "block");
+  select("#leaderboard").style("display", "block");
 
   const scoreText = me.score === 1 ? "correct answer" : "correct answers";
   select("#user-score-message").html(`Nice! You got ${me.score} ${scoreText}!`);
@@ -61,13 +53,12 @@ export function enter() {
       });
     });
   });
-  select("#end .back-button").mousePressed(() => {
+  select("#leaderboard .back-button").mousePressed(() => {
     changeScene(scenes.title);
   });
   select(`.score-${me.score}`).style("background-color", "#e15656");
 }
 
 export function exit() {
-  document.body.classList.remove("game-over");
-  select("#end").style("display", "none");
+  select("#leaderboard").style("display", "none");
 }

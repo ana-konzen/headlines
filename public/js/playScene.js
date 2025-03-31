@@ -141,8 +141,6 @@ export function enter() {
 
   localStorage.removeItem("scoreSaved");
 
-  document.body.classList.add("game-active");
-
   fetchHeadlines();
 
   createProgressIndicator();
@@ -151,8 +149,6 @@ export function enter() {
 }
 
 export function exit() {
-  document.body.classList.remove("game-active");
-
   select("#game").style("display", "none");
 
   resetGameState();
