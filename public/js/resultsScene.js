@@ -13,33 +13,22 @@ export function preload() {
 export function setup() {
   // Set up the "Go to Leaderboard" button
   select("#goToLeaderboard").mousePressed(() => {
-    // Check if we're in versus mode
-    const gameMode = localStorage.getItem("gameMode");
-    if (gameMode === "versus") {
-      changeScene(scenes.versusLeaderboard);
-    } else {
-      changeScene(scenes.end);
-    }
+    changeScene(scenes.end);
   });
 }
 
 export function enter() {
-  // Show the results screen
   select("#results").style("display", "flex");
 
-  // Set the player's score
   select("#player-score").html(me.score);
 
-  // Get the articles from localStorage (we'll save them there from playScene)
   const articlesData = JSON.parse(localStorage.getItem("articlesData") || "[]");
   articles = articlesData;
 
-  // Get the user's answers from localStorage
   userAnswers = JSON.parse(localStorage.getItem("userAnswers") || "[]");
 
-  // Populate the headlines results container
   const headlinesContainer = select("#headlines-results-container");
-  headlinesContainer.html(""); // Clear existing content
+  headlinesContainer.html("");
 
   articles.forEach((article, index) => {
     const userAnswer = userAnswers[index] || "____";
