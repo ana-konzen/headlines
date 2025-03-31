@@ -27,7 +27,6 @@ export function enter() {
     if (countdownValue <= 1) {
       clearInterval(countdownInterval);
       setTimeout(() => {
-        exit();
         changeScene(scenes.play);
       }, 500); // Short delay before transitioning to game
     }
