@@ -2,7 +2,6 @@
 
 import { changeScene, scenes } from "./main.js";
 
-let countdownValue = 3;
 let countdownInterval;
 
 export function setup() {
@@ -13,10 +12,8 @@ export function setup() {
 }
 
 export function enter() {
-  document.body.classList.add("countdown-active");
+  let countdownValue = 3;
 
-  // Reset countdown
-  countdownValue = 3;
   select(".countdown-number").html(countdownValue);
 
   // Start countdown
@@ -34,6 +31,5 @@ export function enter() {
 }
 
 export function exit() {
-  document.body.classList.remove("countdown-active");
   clearInterval(countdownInterval);
 }
