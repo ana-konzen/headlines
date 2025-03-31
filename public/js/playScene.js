@@ -43,12 +43,8 @@ export function update() {
       localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
     }
 
-    const gameMode = localStorage.getItem("gameMode");
-    if (gameMode === "versus") {
-      changeScene(scenes.versusLeaderboard);
-    } else {
-      changeScene(scenes.results);
-    }
+    changeScene(scenes.results);
+
     return;
   }
   select("#timer").html(timer);
@@ -141,9 +137,7 @@ export function enter() {
 
   userAnswers = Array(numArticles).fill("____");
 
-  if (localStorage.getItem("gameMode") !== "versus") {
-    me.score = 0;
-  }
+  me.score = 0;
 
   localStorage.removeItem("scoreSaved");
 
