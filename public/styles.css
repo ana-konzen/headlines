@@ -24,7 +24,7 @@ body {
 
 #start,
 #game,
-#end,
+#leaderboard,
 #countdown {
   position: fixed;
   inset: 0;
@@ -40,7 +40,7 @@ body {
 }
 
 #game,
-#end {
+#leaderboard {
   background: #ffffff;
 }
 
@@ -672,26 +672,6 @@ body.countdown-active #countdown {
 .answer {
   font-weight: bold;
   color: #000;
-}
-
-#leaderboard-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-#leaderboard-container h1 {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 0;
-  text-align: left;
-}
-
-#leaderboard-container .subtitle {
-  font-size: 1rem;
-  color: #666;
-  margin: 0.5rem 0 2rem;
-  text-align: left;
 }
 
 #scores {
