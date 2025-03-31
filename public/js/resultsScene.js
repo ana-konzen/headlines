@@ -11,7 +11,6 @@ export function preload() {
 }
 
 export function setup() {
-  // Set up the "Go to Leaderboard" button
   select("#goToLeaderboard").mousePressed(() => {
     changeScene(scenes.end);
   });
@@ -38,7 +37,6 @@ export function enter() {
 }
 
 export function exit() {
-  // Hide the results screen
   select("#results").style("display", "none");
 }
 
