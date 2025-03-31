@@ -27,6 +27,16 @@ export function enter() {
     createResultDiv(article, index, userAnswers);
   });
 
+  select("#shareResults").mousePressed(() => {
+    const score = me.score;
+    const totalArticles = articles.length;
+    const shareText = `I scored ${score} out of ${totalArticles} in the Headlines Game! Can you do better?`;
+
+    navigator.clipboard.writeText(shareText).then(() => {
+      alert("Results copied to clipboard! Share your score!");
+    });
+  });
+
   if (!localStorage.getItem("scoreSaved")) {
     fetch(`/api/setScore?score=${me.score}`);
     localStorage.setItem("scoreSaved", "true");
