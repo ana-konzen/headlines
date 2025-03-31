@@ -2,9 +2,7 @@
 
 import { changeScene, scenes } from "./main.js";
 
-let articles = [];
 let me;
-let userAnswers = [];
 
 export function preload() {
   me = partyLoadMyShared();
@@ -21,13 +19,12 @@ export function enter() {
 
   select("#player-score").html(me.score);
 
-  const articlesData = JSON.parse(localStorage.getItem("articlesData") || "[]");
-  articles = articlesData;
+  const articles = JSON.parse(localStorage.getItem("articlesData") || "[]");
 
-  userAnswers = JSON.parse(localStorage.getItem("userAnswers") || "[]");
+  const userAnswers = JSON.parse(localStorage.getItem("userAnswers") || "[]");
 
   articles.forEach((article, index) => {
-    createResultDiv(article, index);
+    createResultDiv(article, index, userAnswers);
   });
 
   if (!localStorage.getItem("scoreSaved")) {
@@ -40,41 +37,49 @@ export function exit() {
   select("#results").style("display", "none");
 }
 
-function createResultDiv(article, index) {
+function createResultDiv(article, index, userAnswers) {
   const userAnswer = userAnswers[index] || "____";
   const isCorrect = userAnswer === article.word;
+  const controls = createDiv().addClass("headline-controls");
 
-  const checkMark = createDiv("✓")
+  // create checkmark
+  createDiv("✓")
     .addClass("check-mark")
-    .addClass(isCorrect ? "correct" : "incorrect");
+    .addClass(isCorrect ? "correct" : "incorrect")
+    .parent(controls);
 
-  const readButton = createButton("READ ARTICLE")
+  //create read button
+  createButton("read article")
     .addClass("read-button")
     .mousePressed(() => {
       window.open(article.url, "_blank");
-    });
+    })
+    .parent(controls);
 
-  const controls = createDiv().addClass("headline-controls").child(checkMark).child(readButton);
+  const displayHeadline = isCorrect
+    ? getRightDisplayHeadline(article)
+    : getWrongDisplayHeadline(article, userAnswer);
 
-  let displayHeadline = article.og_article.replace(
-    article.word,
-    `<span class="answer">${article.word}</span>`
-  );
-
-  if (!isCorrect) {
-    const wordPosition = article.og_article.indexOf(article.word);
-
-    if (wordPosition >= 0) {
-      const beforeWord = article.og_article.substring(0, wordPosition);
-      const afterWord = article.og_article.substring(wordPosition + article.word.length);
-
-      displayHeadline = `${beforeWord}<strike class="wrong-answer">${userAnswer}</strike> <span class="answer">${article.word}</span>${afterWord}`;
-    }
-  }
   const headlineItem = createDiv().addClass("headline-result-item");
 
   const headlineText = createDiv(displayHeadline).addClass("headline-text-result");
 
   headlineItem.child(controls).child(headlineText);
   select("#headlines-results-container").child(headlineItem);
+}
+
+function getWrongDisplayHeadline(article, userAnswer) {
+  const wordPosition = article.og_article.indexOf(article.word);
+
+  if (wordPosition >= 0) {
+    const beforeWord = article.og_article.substring(0, wordPosition);
+    const afterWord = article.og_article.substring(wordPosition + article.word.length);
+
+    return `${beforeWord}<strike class="wrong-answer">${userAnswer}</strike> <span class="answer">${article.word}</span>${afterWord}`;
+  }
+  return article.og_article;
+}
+
+function getRightDisplayHeadline(article) {
+  return article.og_article.replace(article.word, `<span class="answer">${article.word}</span>`);
 }
