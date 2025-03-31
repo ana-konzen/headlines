@@ -14,7 +14,7 @@ export function setup() {
   select("#end").html(`
     <div id="user-score-message"></div>
     <div id="leaderboard-container">
-      <h1>LEADERBOARD</h1>
+      <h1>Leaderboard</h1>
       <p class="subtitle">global answer distribution</p>
       <div id="scores">
         ${Array.from(
@@ -33,11 +33,6 @@ export function setup() {
       </div>
     </div>
   `);
-
-  // Add back button functionality
-  select("#end .back-button").mousePressed(() => {
-    changeScene(scenes.title);
-  });
 }
 
 export function enter() {
@@ -65,6 +60,9 @@ export function enter() {
         select(`.score-${score}`).style("width", `${widthPercentage}%`);
       });
     });
+  });
+  select("#end .back-button").mousePressed(() => {
+    changeScene(scenes.title);
   });
   select(`.score-${me.score}`).style("background-color", "#e15656");
 }

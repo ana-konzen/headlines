@@ -17,8 +17,7 @@
 
 import * as titleScene from "./titleScene.js";
 import * as playScene from "./playScene.js";
-import * as endScene from "./endScene.js";
-import * as gameOverScene from "./gameOverScene.js";
+import * as leaderboardScene from "./leaderboardScene.js";
 import * as countdownScene from "./countdownScene.js";
 import * as resultsScene from "./resultsScene.js";
 
@@ -30,8 +29,7 @@ export const scenes = {
   title: titleScene,
   countdown: countdownScene,
   play: playScene,
-  end: endScene,
-  gameOver: gameOverScene,
+  leaderboard: leaderboardScene,
   results: resultsScene,
 };
 

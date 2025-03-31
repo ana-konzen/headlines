@@ -453,18 +453,6 @@ body.game-over #leaderboard {
   transform: scale(1.1);
 }
 
-#gameOver {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background-color: #e15656;
-  color: white;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-}
-
 #results {
   display: none;
   position: fixed;
@@ -563,16 +551,23 @@ body.game-over #leaderboard {
   padding: 2px 5px;
 }
 
-#goToLeaderboard {
+#resultsActionsCont {
   position: fixed;
-  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
+  bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#resultsActionsCont button {
   width: auto;
   background-color: #000;
   color: white;
   border: none;
   padding: 1rem 2rem;
+  margin: 0 10px;
   font-size: 1.2rem;
   border-radius: 100px;
   cursor: pointer;
@@ -581,24 +576,9 @@ body.game-over #leaderboard {
   z-index: 10;
 }
 
-#goToLeaderboard:hover {
+#resultsActionsCont button:hover {
   opacity: 0.9;
-  transform: translateX(-50%) translateY(-1px);
-}
-
-#checkLeaderboard {
-  padding: 12px 24px;
-  background-color: #e15656;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-#checkLeaderboard:hover {
-  background-color: #c94545;
+  transform: translateY(-1px);
 }
 
 #numPlayersCont {

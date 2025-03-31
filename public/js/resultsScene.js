@@ -10,7 +10,7 @@ export function preload() {
 
 export function setup() {
   select("#goToLeaderboard").mousePressed(() => {
-    changeScene(scenes.end);
+    changeScene(scenes.leaderboard);
   });
 }
 
