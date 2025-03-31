@@ -13,7 +13,7 @@ let chosenWord = "____";
 let articles = [];
 let headline;
 let timer = roundTime;
-let userAnswers = []; // Array to store user's answers
+let userAnswers = [];
 let lastChosenWord = "____";
 let currentLetterIndex = 0;
 let typewriterInterval;
@@ -56,7 +56,7 @@ export function update() {
     if (chosenWord !== lastChosenWord) {
       currentLetterIndex = 0;
       clearInterval(typewriterInterval);
-      
+
       typewriterInterval = setInterval(() => {
         if (currentLetterIndex <= chosenWord.length) {
           const currentWord = chosenWord.slice(0, currentLetterIndex);
@@ -71,7 +71,7 @@ export function update() {
           clearInterval(typewriterInterval);
         }
       }, 100);
-      
+
       lastChosenWord = chosenWord;
     }
 
@@ -79,32 +79,24 @@ export function update() {
   }
 }
 
-// Function to create progress indicator dots
 function createProgressIndicator() {
-  // First, remove any existing progress indicator
   if (select("#progressIndicator")) {
     select("#progressIndicator").remove();
   }
 
-  // Create container for progress dots
   const progressContainer = createDiv();
   progressContainer.id("progressIndicator");
 
-  // Find the optionsCont and next button elements
   const optionsContainer = select("#optionsCont");
   const nextButton = select("#next");
 
-  // Insert the progressContainer between optionsCont and next button
   if (optionsContainer && nextButton && optionsContainer.elt && nextButton.elt) {
-    // Insert the progress container after the options container
     const gameContainer = select("#game").elt;
     gameContainer.insertBefore(progressContainer.elt, nextButton.elt);
   } else {
-    // Fallback: just add to the game container
     progressContainer.parent("#game");
   }
 
-  // Create 10 dots
   for (let i = 0; i < numArticles; i++) {
     const dot = createDiv();
     dot.addClass("progress-dot");
@@ -112,34 +104,28 @@ function createProgressIndicator() {
     dot.parent(progressContainer);
   }
 
-  // Initial update
   updateProgressIndicator();
 }
 
-// Function to update progress indicator dots
 function updateProgressIndicator() {
   for (let i = 0; i < numArticles; i++) {
     const dot = select(`#dot-${i}`);
 
-    // Clear previous classes
     dot.removeClass("completed");
     dot.removeClass("current");
     dot.removeClass("upcoming");
 
-    // Set appropriate class based on progress
     if (i < headlineIndex) {
-      dot.addClass("completed"); // Past questions (black)
+      dot.addClass("completed");
     } else if (i === headlineIndex) {
-      dot.addClass("current"); // Current question (red)
+      dot.addClass("current");
     } else {
-      dot.addClass("upcoming"); // Future questions (white)
+      dot.addClass("upcoming");
     }
   }
 }
 
-// Function to reset the game state
 function resetGameState() {
-  // Reset game state variables
   headlineIndex = 0;
   chosenWord = "____";
   articles = [];
@@ -147,46 +133,34 @@ function resetGameState() {
   timer = roundTime;
   userAnswers = Array(numArticles).fill("____");
 
-  // Clear options container
   select("#optionsCont").html("");
 }
 
 export function enter() {
-  // Reset game state
   resetGameState();
 
-  // Reset userAnswers array
   userAnswers = Array(numArticles).fill("____");
 
-  // Reset score for non-versus mode
   if (localStorage.getItem("gameMode") !== "versus") {
     me.score = 0;
   }
 
-  // Remove scoreSaved flag
   localStorage.removeItem("scoreSaved");
 
-  // Add game-active class to body
   document.body.classList.add("game-active");
 
-  // Fetch new headlines
   fetchHeadlines();
 
-  // Create progress indicator
   createProgressIndicator();
 
-  // Show game screen
   select("#game").style("display", "block");
 }
 
 export function exit() {
-  // Remove game-active class from body
   document.body.classList.remove("game-active");
 
-  // Hide game screen
   select("#game").style("display", "none");
 
-  // Reset game state
   resetGameState();
 }
 
@@ -207,9 +181,7 @@ function fetchHeadlines() {
 
       localStorage.setItem("articlesData", JSON.stringify(articles));
 
-      select("#headline").html(
-        `<div class="headline-text">${headline?.article || ""}</div>`
-      );
+      select("#headline").html(`<div class="headline-text">${headline?.article || ""}</div>`);
     })
     .catch((error) => {
       console.error("Error fetching headlines:", error);
@@ -218,10 +190,8 @@ function fetchHeadlines() {
 
 function goToNextRound() {
   if (articles && articles.length > headlineIndex && articles[headlineIndex]) {
-    // Store the user's chosen word in the userAnswers array
     userAnswers[headlineIndex] = chosenWord;
 
-    // Save userAnswers to localStorage
     localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
 
     if (chosenWord === articles[headlineIndex].word) {
@@ -233,22 +203,14 @@ function goToNextRound() {
     headlineIndex++;
     if (headlineIndex >= numArticles) {
       console.log("end");
-      // Check if we're in versus mode
-      const gameMode = localStorage.getItem("gameMode");
-      if (gameMode === "versus") {
-        changeScene(scenes.versusLeaderboard);
-      } else {
-        changeScene(scenes.results); // Change to results scene instead of end
-      }
+
+      changeScene(scenes.results);
+
       return;
     }
     headline = articles[headlineIndex];
 
-    // Update progress indicator when going to next round
     updateProgressIndicator();
-  } else {
-    console.error("Articles data is not available");
-    // Handle the error case
   }
 }
 

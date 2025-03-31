@@ -17,7 +17,9 @@ export function setup() {
       <h1>LEADERBOARD</h1>
       <p class="subtitle">global answer distribution</p>
       <div id="scores">
-        ${Array.from({length: maxPoints}, (_, i) => `
+        ${Array.from(
+          { length: maxPoints },
+          (_, i) => `
           <div class="score-row">
             <div class="score-label">${i + 1}</div>
             <div class="score-bar">
@@ -26,7 +28,8 @@ export function setup() {
               </div>
             </div>
           </div>
-        `).join('')}
+        `
+        ).join("")}
       </div>
     </div>
   `);
@@ -48,15 +51,15 @@ export function enter() {
     response.json().then((scores) => {
       // First find the maximum count
       const scoreCounts = Array(maxPoints).fill(0);
-      scores.forEach(score => scoreCounts[score - 1]++);
+      scores.forEach((score) => scoreCounts[score - 1]++);
       const maxCount = Math.max(...scoreCounts);
-      
+
       // Then update each bar with proportional width
       scores.forEach((score) => {
         const scoreDiv = select(`.score-${score} .score-value`);
         const currentCount = parseInt(scoreDiv.html()) + 1;
         scoreDiv.html(currentCount);
-        
+
         // Calculate width as percentage of max count
         const widthPercentage = (currentCount / maxCount) * 100;
         select(`.score-${score}`).style("width", `${widthPercentage}%`);
