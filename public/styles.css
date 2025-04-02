@@ -366,7 +366,6 @@ button[disabled] {
   max-width: 400px;
   margin: 0 auto;
   padding: 0;
-  background: transparent;
 }
 
 #scores > div:not(.score-row) {
@@ -735,6 +734,9 @@ body.countdown-active #countdown {
   background: #e15656;
   color: #000;
   border: none;
+  position: fixed;
+  inset: 0;
+  display: none;
 }
 
 #leaderboard .profile-icon {
@@ -759,7 +761,7 @@ body.countdown-active #countdown {
 
 .daily-leaderboard {
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 500;
   margin: 0 0 0.5rem;
   color: #000;
 }
@@ -776,10 +778,11 @@ body.countdown-active #countdown {
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 16px;
-  margin-bottom: 4px;
-  padding: 0;
-  background: transparent;
+  height: 24px;
+  margin-bottom: 2px;
+  padding: 8px;
+  background: #ffffff;
+  border-radius: 8px;
 }
 
 .score-label {
@@ -788,29 +791,45 @@ body.countdown-active #countdown {
   width: 25px;
   text-align: right;
   color: #000;
-  background: transparent;
 }
 
 .score-bar {
   flex-grow: 1;
-  height: 16px;
+  height: 12px;
   background: transparent;
-  padding: 0;
+  position: relative;
 }
 
 .score-bar-fill {
   height: 100%;
-  background: #e15656;
+  background: rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: flex-end;
   padding-right: 10px;
-  color: #fff;
+  color: #000;
   font-weight: bold;
   font-size: 0.7rem;
   transition: width 0.3s ease;
   width: 0;
-  border-radius: 4px;
+  border-radius: 0;
+}
+
+.score-value {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #e15656;
+  font-weight: bold;
+}
+
+.daily-leaderboard-container {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 400px;
 }
 
 .share-button {
@@ -818,9 +837,9 @@ body.countdown-active #countdown {
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  background-color: transparent;
-  color: #000;
-  border: 1px solid currentColor;
+  background-color: #000;
+  color: white;
+  border: none;
   width: auto;
   padding: 0.6rem 2rem;
   transition: all 0.2s ease;
@@ -830,8 +849,18 @@ body.countdown-active #countdown {
 }
 
 .share-button:hover {
-  background-color: #000;
-  color: white;
-  border-color: #000;
+  opacity: 0.9;
   transform: translateX(-50%) translateY(-1px);
+}
+
+.share-button:active {
+  opacity: 0.9;
+}
+
+/* Override any border styles when button is green */
+.share-button[style*="background-color: #4CAF50"],
+.share-button[style*="background-color:#4CAF50"] {
+  border: 0 !important;
+  border-color: transparent !important;
+  outline: none !important;
 }

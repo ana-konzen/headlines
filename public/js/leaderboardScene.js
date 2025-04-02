@@ -53,13 +53,15 @@ export function enter() {
         const widthPercentage = Math.min((count / 50) * 100, 100);
         select(`.score-bar-fill.score-${scoreNum}`).style("width", `${widthPercentage}%`);
       });
+
+      // Highlight user's score bar in red
+      select(`.score-bar-fill.score-${me.score}`).style("background-color", "#e15656");
     });
   });
 
   select("#leaderboard .back-button").mousePressed(() => {
     changeScene(scenes.title);
   });
-  select(`.score-${me.score}`).style("background-color", "#e15656");
 }
 
 export function exit() {

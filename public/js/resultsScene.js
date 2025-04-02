@@ -33,7 +33,7 @@ export function enter() {
     const shareText = `I scored ${score} out of ${totalArticles} in the Headlines Game! Can you do better?`;
 
     navigator.clipboard.writeText(shareText).then(() => {
-      select("#shareResults").html("Copied ✓").style("color", "white").style("background-color", "#4CAF50");
+      select("#shareResults").html("Copied ✓");
     });
   });
 
