@@ -35,8 +35,17 @@ export function setup() {
     goToNextRound();
   });
 }
+
 export function update() {
-  if (frameCount % 60 === 0) timer--;
+  if (frameCount % 60 === 0) {
+    timer--;
+    const timerElement = select("#timer");
+    if (timer <= 10) {
+      timerElement.addClass("warning");
+    } else {
+      timerElement.removeClass("warning");
+    }
+  }
   if (timer <= 0) {
     if (headlineIndex < articles.length) {
       userAnswers[headlineIndex] = chosenWord;
@@ -82,6 +91,10 @@ function createProgressIndicator() {
 
   const progressContainer = createDiv();
   progressContainer.id("progressIndicator");
+
+  const turnsText = createDiv("Turns Remaining:");
+  turnsText.addClass("turns-remaining");
+  turnsText.parent(progressContainer);
 
   const optionsContainer = select("#optionsCont");
   const nextButton = select("#next");
@@ -188,6 +201,7 @@ function goToNextRound() {
       me.score++;
     }
     select(".possible-option.disabled").removeClass("possible-option");
+    select("#next").removeClass("active");
 
     chosenWord = "____";
     headlineIndex++;
@@ -220,4 +234,5 @@ function handleOptionPress(option, responseObj) {
     button.removeClass("disabled");
   });
   option.addClass("disabled");
+  select("#next").addClass("active");
 }

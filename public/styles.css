@@ -14,7 +14,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: #e15656;
-  color: white;
+  color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -63,45 +63,57 @@ h1 {
 #progressIndicator {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 10px;
-  margin: 30px auto;
+  position: fixed;
+  bottom: 6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
   max-width: 600px;
   padding: 0 20px;
+}
+
+.turns-remaining {
+  font-size: 1rem;
+  color: #666;
+  margin-right: 10px;
 }
 
 @media (max-width: 600px) {
   #progressIndicator {
     gap: 8px;
+    bottom: 6rem;
   }
 
   .progress-dot {
-    width: 20px;
-    height: 20px;
+    width: 12px;
+    height: 12px;
   }
 }
 
 .progress-dot {
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  border: 2px solid #000;
+  border: 1px solid #5A594E;
   box-sizing: border-box;
   transition: background-color 0.2s ease;
 }
 
 .progress-dot.completed {
-  background-color: #000;
-  border-color: #000;
+  background-color: #5A594E;
+  border-color: #5A594E;
 }
 
 .progress-dot.current {
   background-color: #e15656;
-  border-color: #000;
+  border-color: #e15656;
 }
 
 .progress-dot.upcoming {
   background-color: #fff;
-  border-color: #000;
+  border-color: #5A594E;
 }
 
 .button-container {
@@ -113,16 +125,35 @@ h1 {
 }
 
 #versusButton {
-  background: rgb(167, 167, 167);
-  color: rgb(255, 255, 255);
-  border: none;
+  background-color: transparent;
+  color: #000;
+  border: 1px solid currentColor;
+  padding: 0.6rem 2rem;
+  transition: all 0.2s ease;
   opacity: 1;
+}
+
+#versusButton:hover {
+  transform: translateY(-1px);
 }
 
 #versusButton span {
   display: block;
   font-size: 12px;
-  color: #ffffff;
+  color: #000;
+}
+
+#versusButton.active {
+  color: #000;
+}
+
+#versusButton.active:hover {
+  background-color: #000;
+  color: white;
+}
+
+#versusButton.active span {
+  color: inherit;
 }
 
 button {
@@ -154,13 +185,24 @@ button[disabled] {
   transform: none;
 }
 
+#optionsCont button {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.6rem;
+  font-size: 1.3rem;
+  color: #000;
+}
+
 #optionsCont button.disabled {
-  background-color: #999;
+  background-color: #e15656;
+  border-color: #e15656;
   cursor: not-allowed;
+  color: white;
 }
 
 #optionsCont button.disabled:hover {
-  background-color: #999;
+  background-color: #e15656;
   transform: none;
 }
 
@@ -209,36 +251,30 @@ button[disabled] {
   background: #ffffff;
   border: 1px solid #ddd;
   max-width: 600px;
-  padding: 8px;
   text-align: center;
   border-radius: 8px;
-  margin: 0 auto;
+  margin: 70px auto 3rem;
+  overflow: hidden;
 }
 
 .theme-label-container {
-  background: #b2ebf2;
-  max-width: 600px;
-  padding: 8px;
-  border-radius: 8px;
-  margin: 0 auto;
-}
-
-.theme-label {
-  font-size: 0.8rem;
-  text-transform: uppercase;
+  background: #B2EBF2;
+  width: 100%;
+  padding: 4px 0;
   margin: 0;
 }
 
 .theme-text {
   font-size: 1.3rem;
   font-weight: bold;
-  margin: 4px 0 0;
+  margin: 8px 0;
+  padding: 0 8px;
 }
 
 .instruction-text {
   color: #666;
-  font-size: 1.2rem;
-  margin: 3rem auto 1rem;
+  font-size: 1rem;
+  margin: 3.5rem auto 0.5rem;
   text-align: center;
   max-width: 600px;
 }
@@ -246,20 +282,21 @@ button[disabled] {
 #headline,
 #leaderboard {
   background-color: #ffffff;
-  padding: 8px;
-  border-radius: 16px;
+  padding: 6px;
+  border-radius: 8px;
   border: 1px solid #ddd;
-  margin: 0 auto 2rem;
+  margin: 0 auto 1.5rem;
   max-width: 600px;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   text-align: center;
 }
 
 #headline {
-  min-height: 120px;
+  min-height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto 1.5rem;
 }
 
 .headline-text {
@@ -271,14 +308,29 @@ button[disabled] {
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 1.5rem auto 0;
   padding: 0 1rem;
 }
 
 #optionsCont button {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.6rem;
+  font-size: 1.3rem;
+  color: #000;
+}
+
+#optionsCont button.disabled {
   background-color: #e15656;
-  border-radius: 16px;
-  padding: 1rem;
+  border-color: #e15656;
+  cursor: not-allowed;
+  color: white;
+}
+
+#optionsCont button.disabled:hover {
+  background-color: #e15656;
+  transform: none;
 }
 
 #next {
@@ -287,17 +339,24 @@ button[disabled] {
   left: 50%;
   transform: translateX(-50%);
   background-color: transparent;
-  color: #000;
-  border: 2px solid currentColor;
+  color: #999;
+  border: 1px solid currentColor;
   width: auto;
-  padding: 0.8rem 3rem;
+  padding: 0.6rem 2rem;
   transition: all 0.2s ease;
 }
 
+#next.active {
+  color: #000;
+}
+
 #next:hover {
+  transform: translateX(-50%) translateY(-1px);
+}
+
+#next.active:hover {
   background-color: #000;
   color: white;
-  transform: translateX(-50%) translateY(-1px);
 }
 
 #scores {
@@ -378,12 +437,27 @@ button[disabled] {
   font-size: 3rem;
   font-weight: bold;
   text-align: center;
-  margin: 0;
+  margin: 0.5rem 0;
+  color: #000;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+#timer.warning {
   color: #e15656;
 }
 
 #game {
   padding-top: 10px;
+  position: fixed;
+  inset: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  display: none;
+  background: #ffffff;
 }
 
 .how-to {
@@ -455,22 +529,41 @@ button[disabled] {
   color: black;
   flex-direction: column;
   padding: 20px;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .score-display {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: bold;
   text-align: center;
-  margin: 20px 0;
+  color: #000;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  margin: 0;
+  z-index: 2;
+  background: white;
+  padding: 10px 0;
+}
+
+.score-subtitle {
+  color: #666;
+  font-size: 1rem;
+  text-align: center;
+  margin: 0;
+  font-weight: normal;
 }
 
 #headlines-results-container {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin: 20px 0;
-  padding-bottom: 80px;
+  margin: 100px 0 100px;
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+  padding: 0 20px;
 }
 
 .headline-result-item {
@@ -547,20 +640,24 @@ button[disabled] {
 
 #resultsActionsCont {
   position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 20px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
+  background: white;
+  z-index: 2;
+  border-top: 1px solid #eee;
 }
 
 #resultsActionsCont button {
   width: auto;
-  background-color: #000;
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
+  background-color: transparent;
+  color: #000;
+  border: 1px solid currentColor;
+  padding: 0.6rem 2rem;
   margin: 0 10px;
   font-size: 1.2rem;
   border-radius: 100px;
@@ -571,7 +668,8 @@ button[disabled] {
 }
 
 #resultsActionsCont button:hover {
-  opacity: 0.9;
+  background-color: #000;
+  color: white;
   transform: translateY(-1px);
 }
 
@@ -647,7 +745,7 @@ body.countdown-active #countdown {
   margin: 10px 0;
   font-size: 1.5rem;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -698,7 +796,7 @@ body.countdown-active #countdown {
 .score-bar {
   flex-grow: 1;
   height: 16px;
-  background: #f5f5f5;
+  background: #ffffff;
 }
 
 .score-bar-fill {
@@ -713,4 +811,10 @@ body.countdown-active #countdown {
   font-size: 0.8rem;
   transition: width 0.3s ease;
   width: 0;
+}
+
+.theme-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  margin: 0;
 }

@@ -50,13 +50,13 @@
     </div>
 
     <div id="game">
-      <div id="timer"></div>
       <div class="theme-container">
         <div class="theme-label-container">
           <p class="theme-label">TODAY'S THEME</p>
         </div>
         <p class="theme-text">Random</p>
       </div>
+      <div id="timer"></div>
       <p class="instruction-text">Fill in the blank!</p>
       <div id="headline"></div>
       <div id="optionsCont"></div>
@@ -64,7 +64,10 @@
     </div>
 
     <div id="results">
-      <div class="score-display"><span id="player-score">0</span> / <span id="total-questions">10</span></div>
+      <div class="score-display">
+        <span id="player-score">0</span> / <span id="total-questions">10</span>
+        <div class="score-subtitle">answered correctly</div>
+      </div>
       <div id="headlines-results-container"></div>
       <div id="resultsActionsCont">
         <button id="goToLeaderboard">Leaderboard</button>
