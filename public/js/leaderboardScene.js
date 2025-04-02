@@ -36,19 +36,18 @@ export function enter() {
 
   fetch("/api/scores").then((response) => {
     response.json().then((scores) => {
-      // First find the maximum count
+      // First count occurrences of each score
       const scoreCounts = Array(maxPoints).fill(0);
       scores.forEach((score) => scoreCounts[score - 1]++);
-      const maxCount = Math.max(...scoreCounts);
 
-      // Then update each bar with proportional width
+      // Update each bar with width based on fixed maximum of 50
       scores.forEach((score) => {
         const scoreDiv = select(`.score-${score} .score-value`);
         const currentCount = parseInt(scoreDiv.html()) + 1;
         scoreDiv.html(currentCount);
 
-        // Calculate width as percentage of max count
-        const widthPercentage = (currentCount / maxCount) * 100;
+        // Calculate width as percentage of 50 (fixed maximum)
+        const widthPercentage = (currentCount / 50) * 100;
         select(`.score-${score}`).style("width", `${widthPercentage}%`);
       });
     });
