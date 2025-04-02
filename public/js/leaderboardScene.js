@@ -48,7 +48,7 @@ export function enter() {
 
         // Calculate width as percentage of 50 (fixed maximum)
         const widthPercentage = (currentCount / 50) * 100;
-        select(`.score-${score}`).style("width", `${widthPercentage}%`);
+        select(`.score-bar-fill.score-${score}`).style("width", `${widthPercentage}%`);
       });
     });
   });
