@@ -50,31 +50,31 @@ export function exit() {
 function createResultDiv(article, index, userAnswers) {
   const userAnswer = userAnswers[index] || "____";
   const isCorrect = userAnswer === article.word;
-  const controls = createDiv().addClass("headline-controls");
+  
+  const headlineItem = createDiv().addClass("headline-result-item");
 
-  // create checkmark
-  createDiv("✓")
+  // create checkmark and headline group
+  const checkmark = createDiv("✓")
     .addClass("check-mark")
-    .addClass(isCorrect ? "correct" : "incorrect")
-    .parent(controls);
-
-  //create read button
-  createButton("read article")
-    .addClass("read-button")
-    .mousePressed(() => {
-      window.open(article.url, "_blank");
-    })
-    .parent(controls);
+    .addClass(isCorrect ? "correct" : "incorrect");
 
   const displayHeadline = isCorrect
     ? getRightDisplayHeadline(article)
     : getWrongDisplayHeadline(article, userAnswer);
 
-  const headlineItem = createDiv().addClass("headline-result-item");
-
   const headlineText = createDiv(displayHeadline).addClass("headline-text-result");
 
-  headlineItem.child(controls).child(headlineText);
+  //create read button
+  const readButton = createButton("View Article")
+    .addClass("read-button")
+    .mousePressed(() => {
+      window.open(article.url, "_blank");
+    });
+
+  checkmark.parent(headlineItem);
+  headlineText.parent(headlineItem);
+  readButton.parent(headlineItem);
+  
   select("#headlines-results-container").child(headlineItem);
 }
 
