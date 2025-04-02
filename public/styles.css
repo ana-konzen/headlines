@@ -360,16 +360,16 @@ button[disabled] {
 }
 
 #scores {
-  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0;
-  max-height: 70vh;
-  overflow-y: auto;
-  padding-right: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0;
+  background: transparent;
 }
 
-#scores div {
+#scores > div:not(.score-row) {
   padding: 1rem;
   border-radius: 8px;
   background: #f8f8f8;
@@ -772,22 +772,13 @@ body.countdown-active #countdown {
   max-width: 600px;
 }
 
-#scores {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 0;
-  background: transparent;
-}
-
 .score-row {
   display: flex;
   align-items: center;
-  gap: 20px;
-  height: 8px;
+  gap: 8px;
+  height: 16px;
   margin-bottom: 4px;
+  padding: 0;
   background: transparent;
 }
 
@@ -802,22 +793,24 @@ body.countdown-active #countdown {
 
 .score-bar {
   flex-grow: 1;
-  height: 8px;
+  height: 16px;
   background: transparent;
+  padding: 0;
 }
 
 .score-bar-fill {
   height: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  background: #e15656;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   padding-right: 10px;
-  color: #000;
+  color: #fff;
   font-weight: bold;
   font-size: 0.7rem;
   transition: width 0.3s ease;
   width: 0;
+  border-radius: 4px;
 }
 
 .share-button {

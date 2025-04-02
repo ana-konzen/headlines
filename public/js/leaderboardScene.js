@@ -36,22 +36,26 @@ export function enter() {
 
   fetch("/api/scores").then((response) => {
     response.json().then((scores) => {
-      // First count occurrences of each score
+      // Count occurrences of each score
       const scoreCounts = Array(maxPoints).fill(0);
-      scores.forEach((score) => scoreCounts[score - 1]++);
-
-      // Update each bar with width based on fixed maximum of 50
       scores.forEach((score) => {
-        const scoreDiv = select(`.score-${score} .score-value`);
-        const currentCount = parseInt(scoreDiv.html()) + 1;
-        scoreDiv.html(currentCount);
+        if (score > 0 && score <= maxPoints) {
+          scoreCounts[score - 1]++;
+        }
+      });
 
+      // Update each bar
+      scoreCounts.forEach((count, index) => {
+        const scoreNum = index + 1;
+        select(`.score-${scoreNum} .score-value`).html(count);
+        
         // Calculate width as percentage of 50 (fixed maximum)
-        const widthPercentage = (currentCount / 50) * 100;
-        select(`.score-bar-fill.score-${score}`).style("width", `${widthPercentage}%`);
+        const widthPercentage = Math.min((count / 50) * 100, 100);
+        select(`.score-bar-fill.score-${scoreNum}`).style("width", `${widthPercentage}%`);
       });
     });
   });
+
   select("#leaderboard .back-button").mousePressed(() => {
     changeScene(scenes.title);
   });
