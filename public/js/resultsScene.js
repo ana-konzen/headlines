@@ -30,10 +30,10 @@ export function enter() {
   select("#shareResults").mousePressed(() => {
     const score = me.score;
     const totalArticles = articles.length;
-    const shareText = `I scored ${score} out of ${totalArticles} in the Headlines Game! Can you do better?`;
+    const shareText = `I scored ${score} out of ${totalArticles} in the Headlines Game! Can you do better? https://headlines-game.deno.dev/`;
 
     navigator.clipboard.writeText(shareText).then(() => {
-      select("#shareResults").html("Copied ✓");
+      select("#shareResults").html("Copied ✓").style("background-color", "#4CAF50");
     });
   });
 
@@ -50,7 +50,7 @@ export function exit() {
 function createResultDiv(article, index, userAnswers) {
   const userAnswer = userAnswers[index] || "____";
   const isCorrect = userAnswer === article.word;
-  
+
   const headlineItem = createDiv().addClass("headline-result-item");
 
   // create checkmark and headline group
@@ -74,7 +74,7 @@ function createResultDiv(article, index, userAnswers) {
   checkmark.parent(headlineItem);
   headlineText.parent(headlineItem);
   readButton.parent(headlineItem);
-  
+
   select("#headlines-results-container").child(headlineItem);
 }
 
