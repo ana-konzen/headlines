@@ -131,6 +131,7 @@ h1 {
   padding: 0.6rem 2rem;
   transition: all 0.2s ease;
   opacity: 1;
+  display: none;
 }
 
 #versusButton:hover {
