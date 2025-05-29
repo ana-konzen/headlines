@@ -96,14 +96,14 @@ h1 {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 1px solid #5A594E;
+  border: 1px solid #5a594e;
   box-sizing: border-box;
   transition: background-color 0.2s ease;
 }
 
 .progress-dot.completed {
-  background-color: #5A594E;
-  border-color: #5A594E;
+  background-color: #5a594e;
+  border-color: #5a594e;
 }
 
 .progress-dot.current {
@@ -113,7 +113,7 @@ h1 {
 
 .progress-dot.upcoming {
   background-color: #fff;
-  border-color: #5A594E;
+  border-color: #5a594e;
 }
 
 .button-container {
@@ -258,7 +258,7 @@ button[disabled] {
 }
 
 .theme-label-container {
-  background: #B2EBF2;
+  background: #b2ebf2;
   width: 100%;
   padding: 4px 0;
   margin: 0;
