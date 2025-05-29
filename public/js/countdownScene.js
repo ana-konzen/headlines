@@ -12,6 +12,7 @@ export function setup() {
 }
 
 export function enter() {
+  select("body").addClass("countdown-active");
   let countdownValue = 3;
 
   select(".countdown-number").html(countdownValue);
@@ -25,11 +26,12 @@ export function enter() {
       clearInterval(countdownInterval);
       setTimeout(() => {
         changeScene(scenes.play);
-      }, 500); // Short delay before transitioning to game
+      }, 1000); // Short delay before transitioning to game
     }
-  }, 500);
+  }, 1000);
 }
 
 export function exit() {
+  select("body").removeClass("countdown-active");
   clearInterval(countdownInterval);
 }
