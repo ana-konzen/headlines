@@ -21,7 +21,7 @@
         <img src="assets/question-icon.svg" alt="How to play" />
       </div>
       <h1>Headlines</h1>
-      <p class="subtitle">Fill in the blanks faster than your friends.</p>
+      <p class="subtitle">Fill in the blanks before time runs out.</p>
       <div class="button-container">
         <button id="startGame">Play</button>
         <button id="versusButton" disabled class="secondary">
@@ -32,7 +32,7 @@
       <div id="numPlayersCont">
         <span id="numPlayers"></span> people played today
       </div>
-      <div class="date">March 5, 2025</div>
+      <div class="date"></div>
     </div>
 
     <div id="how-to-modal" class="modal">
@@ -41,7 +41,24 @@
           <img src="assets/back-arrow.svg" alt="Back" />
         </div>
         <h1>How To Play</h1>
-        <p class="subtitle">annotated screenshots will go here</p>
+        <div class="how-to-content">
+          <p>
+            You will have 60 seconds to fill in as many headlines as you can.
+            Once you select an answer and advance to the next headline, you will
+            not be able to return. The game ends after 60 seconds or after you
+            submit all of your answer, whichever happens first. You can review
+            your score and the correct answers, then compare your score against
+            the global leaderboard.
+          </p>
+
+          <div class="contact-info">
+            <p>
+              Please contact us if you notice a bug! You can reach the games
+              developers at
+              <a href="mailto:howdy@joshstrupp.com">howdy@joshstrupp.com</a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -77,9 +94,12 @@
     </div>
 
     <div id="leaderboard">
+      <div class="back-arrow">
+        <img src="assets/back-arrow.svg" alt="Back" />
+      </div>
       <img src="assets/icon.png" alt="Profile Icon" class="profile-icon" />
       <h1>Headlines</h1>
-      <div class="date">March 5, 2025</div>
+      <div class="date"></div>
       <div class="daily-leaderboard-container">
         <div class="daily-leaderboard">Daily Leaderboard</div>
         <div id="user-score-message"></div>

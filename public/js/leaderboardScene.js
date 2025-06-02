@@ -48,22 +48,38 @@ export function enter() {
       scoreCounts.forEach((count, index) => {
         const scoreNum = index + 1;
         select(`.score-${scoreNum} .score-value`).html(count);
-        
+
         // Calculate width as percentage of 50 (fixed maximum)
         const widthPercentage = Math.min((count / 50) * 100, 100);
-        select(`.score-bar-fill.score-${scoreNum}`).style("width", `${widthPercentage}%`);
+        select(`.score-bar-fill.score-${scoreNum}`).style(
+          "width",
+          `${widthPercentage}%`
+        );
       });
 
       // Highlight user's score bar in red
-      select(`.score-bar-fill.score-${me.score}`).style("background-color", "#e15656");
+      select(`.score-bar-fill.score-${me.score}`).style(
+        "background-color",
+        "#e15656"
+      );
     });
   });
 
-  select("#leaderboard .back-button").mousePressed(() => {
-    changeScene(scenes.title);
-  });
+  // Add back button click handler
+  document
+    .querySelector("#leaderboard .back-arrow")
+    .addEventListener("click", () => {
+      changeScene(scenes.title);
+    });
 }
 
 export function exit() {
   select("#leaderboard").style("display", "none");
+
+  // Remove back button click handler
+  document
+    .querySelector("#leaderboard .back-arrow")
+    .removeEventListener("click", () => {
+      changeScene(scenes.title);
+    });
 }
