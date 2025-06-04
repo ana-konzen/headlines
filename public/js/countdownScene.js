@@ -26,9 +26,9 @@ export function enter() {
       clearInterval(countdownInterval);
       setTimeout(() => {
         changeScene(scenes.play);
-      }, 1000); // Short delay before transitioning to game
+      }, 1500); // Short delay before transitioning to game
     }
-  }, 1000);
+  }, 1500); // Changed from 1000 to 1500 for 1.5 second intervals
 }
 
 export function exit() {
