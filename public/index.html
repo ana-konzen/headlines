@@ -36,7 +36,9 @@
       <h1>Headlines</h1>
       <p class="subtitle">Fill in the blanks before time runs out.</p>
       <div class="button-container">
-        <button id="startGame">Play</button>
+        <button id="startGame" class="plausible-event-name=start-game">
+          Play
+        </button>
         <button id="versusButton" disabled class="secondary">
           Versus
           <span>COMING SOON</span>
@@ -119,7 +121,12 @@
         <div id="user-score-message"></div>
         <div id="scores"></div>
       </div>
-      <button id="shareResults" class="share-button">Share Results</button>
+      <button
+        id="shareResults"
+        class="share-button plausible-event-name--copied-link"
+      >
+        Share Results
+      </button>
     </div>
 
     <script defer type="module" src="js/main.js"></script>
