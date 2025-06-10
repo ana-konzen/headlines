@@ -28,6 +28,11 @@ export function enter() {
   });
 
   select("#shareResults").mousePressed(() => {
+    // Manually trigger Plausible event
+    if (window.plausible) {
+      window.plausible("copied-link");
+    }
+
     const score = me.score;
     const totalArticles = articles.length;
     const shareText = `I scored ${score} out of ${totalArticles} in Headlines! Can you do better? https://play-headlines.deno.dev/`;

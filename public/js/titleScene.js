@@ -2,6 +2,10 @@ import { changeScene, scenes } from "./main.js";
 
 export function setup() {
   select("#startGame").mousePressed(() => {
+    // Manually trigger Plausible event
+    if (window.plausible) {
+      window.plausible("start-game");
+    }
     changeScene(scenes.countdown);
   });
 

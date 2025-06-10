@@ -99,7 +99,12 @@ function createProgressIndicator() {
   const optionsContainer = select("#optionsCont");
   const nextButton = select("#next");
 
-  if (optionsContainer && nextButton && optionsContainer.elt && nextButton.elt) {
+  if (
+    optionsContainer &&
+    nextButton &&
+    optionsContainer.elt &&
+    nextButton.elt
+  ) {
     const gameContainer = select("#game").elt;
     gameContainer.insertBefore(progressContainer.elt, nextButton.elt);
   } else {
@@ -184,7 +189,9 @@ function fetchHeadlines() {
 
       localStorage.setItem("articlesData", JSON.stringify(articles));
 
-      select("#headline").html(`<div class="headline-text">${headline?.article || ""}</div>`);
+      select("#headline").html(
+        `<div class="headline-text">${headline?.article || ""}</div>`
+      );
     })
     .catch((error) => {
       console.error("Error fetching headlines:", error);
@@ -207,6 +214,16 @@ function goToNextRound() {
     headlineIndex++;
     if (headlineIndex >= numArticles) {
       console.log("end");
+
+      // Track game completion
+      if (window.plausible) {
+        window.plausible("game-completed", {
+          props: {
+            score: me.score,
+            totalQuestions: numArticles,
+          },
+        });
+      }
 
       changeScene(scenes.results);
 
