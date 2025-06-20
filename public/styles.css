@@ -969,10 +969,29 @@ body.countdown-active #countdown {
 
 /* Override any border styles when button is green */
 .share-button[style*="background-color: #4CAF50"],
-.share-button[style*="background-color:#4CAF50"] {
-  border: 0 !important;
-  border-color: transparent !important;
-  outline: none !important;
+.share-button[style*="background-color: rgb(76, 175, 80)"] {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.feedback-button {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background-color: transparent !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  text-decoration: underline !important;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.feedback-button:hover {
+  color: #666 !important;
+  transform: none !important;
 }
 
 @media (max-width: 480px) {
