@@ -15,17 +15,30 @@ const kv = await Deno.openKv();
 const date = checkTime(1) ? getDate(true) : getDate();
 const numArticles = 10;
 
-// Deno.cron("Get new articles", "50 7 * * *", async () => {
-//   console.log("Getting new articles...");
-//   const articles = await getArticles();
-//   await kv.set(["gameData", date], {
-//     scores: [],
-//     date: date,
-//     numPlayers: 0,
-//     articles: articles,
-//     numArticles: numArticles,
-//   });
-// });
+Deno.cron("Get new articles", "0 5 * * *", async () => {
+  console.log("Getting new articles at 5:00 AM...");
+  try {
+    const articles = await getArticles();
+    const todayDate = getDate(); // Get today's date for 5am cron
+
+    console.log(
+      `Successfully fetched ${articles.length} articles for ${todayDate}`
+    );
+
+    await kv.set(["gameData", todayDate], {
+      scores: [],
+      date: todayDate,
+      numPlayers: 0,
+      articles: articles,
+      numArticles: numArticles,
+    });
+
+    console.log("Daily articles successfully cached in database");
+  } catch (error) {
+    console.error("Error in daily cron job:", error);
+    // Don't create fallback data here - let the initialization handle it
+  }
+});
 
 // Initialize game data if it doesn't exist
 async function initGameData() {
