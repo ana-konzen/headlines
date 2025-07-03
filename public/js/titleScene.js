@@ -6,7 +6,7 @@ export function setup() {
     if (window.plausible) {
       window.plausible("start-game");
     }
-    changeScene(scenes.countdown);
+    changeScene(scenes.instructions);
   });
 
   // How-to modal functionality

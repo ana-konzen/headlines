@@ -16,6 +16,7 @@
  */
 
 import * as titleScene from "./titleScene.js";
+import * as instructionsScene from "./instructionsScene.js";
 import * as playScene from "./playScene.js";
 import * as leaderboardScene from "./leaderboardScene.js";
 import * as countdownScene from "./countdownScene.js";
@@ -27,6 +28,7 @@ let partyInitialized = false;
 // all the available scenes
 export const scenes = {
   title: titleScene,
+  instructions: instructionsScene,
   countdown: countdownScene,
   play: playScene,
   leaderboard: leaderboardScene,

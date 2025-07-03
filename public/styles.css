@@ -784,6 +784,68 @@ button[disabled] {
   padding-top: 15px;
 }
 
+/* Instructions Screen Styles */
+#instructions {
+  position: fixed;
+  inset: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  display: none;
+  background: #e15656;
+  text-align: center;
+}
+
+.instructions-content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px);
+}
+
+.instructions-text {
+  font-size: 1.2rem;
+  color: #000;
+  margin: 1rem auto;
+  line-height: 1.4;
+  max-width: 500px;
+}
+
+.video-container {
+  margin: 1rem auto;
+  max-width: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.preview-video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.next-button {
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+.next-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
 /* Countdown Screen Styles */
 #countdown {
   display: none;
@@ -1179,6 +1241,33 @@ body.countdown-active #countdown {
 
   #game {
     padding-bottom: 11rem;
+  }
+
+  /* Instructions screen mobile styles */
+  #instructions {
+    padding: 10px;
+  }
+
+  .instructions-content {
+    padding: 0.5rem 0;
+    min-height: calc(100vh - 80px);
+  }
+
+  .instructions-text {
+    font-size: 1rem;
+    margin: 0.5rem auto;
+    max-width: 90%;
+  }
+
+  .video-container {
+    max-width: 80%;
+    margin: 0.5rem auto;
+  }
+
+  .next-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    margin-top: 0.5rem;
   }
 }
 
