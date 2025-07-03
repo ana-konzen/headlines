@@ -28,12 +28,19 @@ export function enter() {
   });
 
   select("#shareResults").mousePressed(() => {
+    // Manually trigger Plausible event
+    if (window.plausible) {
+      window.plausible("copied-link");
+    }
+
     const score = me.score;
     const totalArticles = articles.length;
-    const shareText = `I scored ${score} out of ${totalArticles} in the Headlines Game! Can you do better? https://headlines-game.deno.dev/`;
+    const shareText = `I scored ${score} out of ${totalArticles} in Headlines! Can you do better? https://play-headlines.deno.dev/`;
 
     navigator.clipboard.writeText(shareText).then(() => {
-      select("#shareResults").html("Copied ✓").style("background-color", "#4CAF50");
+      select("#shareResults")
+        .html("Copied ✓")
+        .style("background-color", "#4CAF50");
     });
   });
 
@@ -62,7 +69,9 @@ function createResultDiv(article, index, userAnswers) {
     ? getRightDisplayHeadline(article)
     : getWrongDisplayHeadline(article, userAnswer);
 
-  const headlineText = createDiv(displayHeadline).addClass("headline-text-result");
+  const headlineText = createDiv(displayHeadline).addClass(
+    "headline-text-result"
+  );
 
   //create read button
   const readButton = createButton("View Article")
@@ -83,7 +92,9 @@ function getWrongDisplayHeadline(article, userAnswer) {
 
   if (wordPosition >= 0) {
     const beforeWord = article.og_article.substring(0, wordPosition);
-    const afterWord = article.og_article.substring(wordPosition + article.word.length);
+    const afterWord = article.og_article.substring(
+      wordPosition + article.word.length
+    );
 
     return `${beforeWord}<strike class="wrong-answer">${userAnswer}</strike> <span class="answer">${article.word}</span>${afterWord}`;
   }
@@ -91,5 +102,8 @@ function getWrongDisplayHeadline(article, userAnswer) {
 }
 
 function getRightDisplayHeadline(article) {
-  return article.og_article.replace(article.word, `<span class="answer">${article.word}</span>`);
+  return article.og_article.replace(
+    article.word,
+    `<span class="answer">${article.word}</span>`
+  );
 }

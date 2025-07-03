@@ -17,6 +17,7 @@ let userAnswers = [];
 let lastChosenWord = "____";
 let currentLetterIndex = 0;
 let typewriterInterval;
+let autoAdvance = false;
 
 export function preload() {
   // partyConnect("wss://demoserver.p5party.org", "headlines-game");
@@ -28,12 +29,7 @@ export function preload() {
 }
 
 export function setup() {
-  select("#next").mousePressed(() => {
-    if (chosenWord === "____") {
-      return;
-    }
-    goToNextRound();
-  });
+  // Next button is now hidden - auto-advance on answer selection
 }
 
 export function update() {
@@ -74,6 +70,13 @@ export function update() {
           currentLetterIndex++;
         } else {
           clearInterval(typewriterInterval);
+
+          // Auto-advance after animation completes
+          if (autoAdvance) {
+            setTimeout(() => {
+              goToNextRound();
+            }, 500);
+          }
         }
       }, 100);
 
@@ -99,7 +102,12 @@ function createProgressIndicator() {
   const optionsContainer = select("#optionsCont");
   const nextButton = select("#next");
 
-  if (optionsContainer && nextButton && optionsContainer.elt && nextButton.elt) {
+  if (
+    optionsContainer &&
+    nextButton &&
+    optionsContainer.elt &&
+    nextButton.elt
+  ) {
     const gameContainer = select("#game").elt;
     gameContainer.insertBefore(progressContainer.elt, nextButton.elt);
   } else {
@@ -141,6 +149,7 @@ function resetGameState() {
   headline = null;
   timer = roundTime;
   userAnswers = Array(numArticles).fill("____");
+  autoAdvance = false;
 
   select("#optionsCont").html("");
 }
@@ -184,7 +193,9 @@ function fetchHeadlines() {
 
       localStorage.setItem("articlesData", JSON.stringify(articles));
 
-      select("#headline").html(`<div class="headline-text">${headline?.article || ""}</div>`);
+      select("#headline").html(
+        `<div class="headline-text">${headline?.article || ""}</div>`
+      );
     })
     .catch((error) => {
       console.error("Error fetching headlines:", error);
@@ -193,20 +204,26 @@ function fetchHeadlines() {
 
 function goToNextRound() {
   if (articles && articles.length > headlineIndex && articles[headlineIndex]) {
-    userAnswers[headlineIndex] = chosenWord;
-
-    localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
-
-    if (chosenWord === articles[headlineIndex].word) {
-      me.score++;
-    }
+    // Reset disabled options for next round
     select(".possible-option.disabled").removeClass("possible-option");
-    select("#next").removeClass("active");
 
+    // Reset for next round
     chosenWord = "____";
+    autoAdvance = false;
     headlineIndex++;
+
     if (headlineIndex >= numArticles) {
       console.log("end");
+
+      // Track game completion
+      if (window.plausible) {
+        window.plausible("game-completed", {
+          props: {
+            score: me.score,
+            totalQuestions: numArticles,
+          },
+        });
+      }
 
       changeScene(scenes.results);
 
@@ -229,10 +246,27 @@ function createOption(responseObj) {
 
 function handleOptionPress(option, responseObj) {
   if (option.hasClass("disabled")) return;
+
+  // Immediately save the answer and set up auto-advance
   chosenWord = responseObj.word;
+
+  // Save answer for current headline
+  if (headlineIndex < articles.length) {
+    userAnswers[headlineIndex] = chosenWord;
+    localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+  }
+
+  // Update score if correct
+  if (chosenWord === articles[headlineIndex].word) {
+    me.score++;
+  }
+
+  // Visual feedback - mark selected option
   selectAll(".possible-option").forEach((button) => {
     button.removeClass("disabled");
   });
   option.addClass("disabled");
-  select("#next").addClass("active");
+
+  // Enable auto-advance after animation
+  autoAdvance = true;
 }

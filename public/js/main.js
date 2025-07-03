@@ -16,6 +16,7 @@
  */
 
 import * as titleScene from "./titleScene.js";
+import * as instructionsScene from "./instructionsScene.js";
 import * as playScene from "./playScene.js";
 import * as leaderboardScene from "./leaderboardScene.js";
 import * as countdownScene from "./countdownScene.js";
@@ -27,6 +28,7 @@ let partyInitialized = false;
 // all the available scenes
 export const scenes = {
   title: titleScene,
+  instructions: instructionsScene,
   countdown: countdownScene,
   play: playScene,
   leaderboard: leaderboardScene,
@@ -152,3 +154,36 @@ export function changeScene(newScene) {
     console.error("Error changing scene:", error);
   }
 }
+
+// Function to format date as "Month Day, Year"
+function formatDate(date) {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+}
+
+// Update all date elements with today's date
+function updateDates() {
+  const today = new Date();
+  const formattedDate = formatDate(today);
+
+  // Update all elements with class 'date'
+  document.querySelectorAll(".date").forEach((element) => {
+    element.textContent = formattedDate;
+  });
+}
+
+// Call updateDates when the page loads
+document.addEventListener("DOMContentLoaded", updateDates);

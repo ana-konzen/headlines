@@ -15,17 +15,30 @@ const kv = await Deno.openKv();
 const date = checkTime(1) ? getDate(true) : getDate();
 const numArticles = 10;
 
-// Deno.cron("Get new articles", "50 7 * * *", async () => {
-//   console.log("Getting new articles...");
-//   const articles = await getArticles();
-//   await kv.set(["gameData", date], {
-//     scores: [],
-//     date: date,
-//     numPlayers: 0,
-//     articles: articles,
-//     numArticles: numArticles,
-//   });
-// });
+Deno.cron("Get new articles", "0 5 * * *", async () => {
+  console.log("Getting new articles at 5:00 AM...");
+  try {
+    const articles = await getArticles();
+    const todayDate = getDate(); // Get today's date for 5am cron
+
+    console.log(
+      `Successfully fetched ${articles.length} articles for ${todayDate}`
+    );
+
+    await kv.set(["gameData", todayDate], {
+      scores: [],
+      date: todayDate,
+      numPlayers: 0,
+      articles: articles,
+      numArticles: numArticles,
+    });
+
+    console.log("Daily articles successfully cached in database");
+  } catch (error) {
+    console.error("Error in daily cron job:", error);
+    // Don't create fallback data here - let the initialization handle it
+  }
+});
 
 // Initialize game data if it doesn't exist
 async function initGameData() {
@@ -79,19 +92,31 @@ async function initGameData() {
       }
     } else {
       console.log("Game data already exists for today.");
-      console.log(`Found ${data.value.articles?.length || 0} articles in existing data.`);
+      console.log(
+        `Found ${data.value.articles?.length || 0} articles in existing data.`
+      );
       // Check if we have test data and real data is now available
-      if (data.value.articles && data.value.articles[0]?.section === "fallback") {
-        console.log("Existing data contains fallback articles. Attempting to fetch real articles...");
+      if (
+        data.value.articles &&
+        data.value.articles[0]?.section === "fallback"
+      ) {
+        console.log(
+          "Existing data contains fallback articles. Attempting to fetch real articles..."
+        );
         try {
           const articles = await getArticles();
-          console.log(`Successfully fetched ${articles.length} real articles to replace fallback data`);
+          console.log(
+            `Successfully fetched ${articles.length} real articles to replace fallback data`
+          );
 
           data.value.articles = articles;
           await kv.set(["gameData", date], data.value);
           console.log("Updated game data with real articles.");
         } catch (error) {
-          console.error("Failed to replace fallback data with real articles:", error);
+          console.error(
+            "Failed to replace fallback data with real articles:",
+            error
+          );
         }
       }
     }
@@ -212,7 +237,9 @@ async function getArticles() {
     );
 
     if (!nytResponse.ok) {
-      console.error(`NYT API error: ${nytResponse.status} ${nytResponse.statusText}`);
+      console.error(
+        `NYT API error: ${nytResponse.status} ${nytResponse.statusText}`
+      );
       const errorText = await nytResponse.text();
       console.error("NYT API error details:", errorText);
       throw new Error(`NYT API returned status ${nytResponse.status}`);
@@ -225,18 +252,37 @@ async function getArticles() {
     }
 
     const randomArticles = [];
+    const usedWords = new Set(); // Track used words
+    let attempts = 0;
+    const maxAttempts = articles.results.length * 2; // Prevent infinite loops
 
-    for (let i = 0; i < numArticles; i++) {
+    while (randomArticles.length < numArticles && attempts < maxAttempts) {
       let randomArticle = sampleArray(articles.results);
+      let word = null;
+      let duplicateFound = false;
 
-      while (randomArticles.some((article) => article.og_article === randomArticle.title)) {
-        randomArticle = sampleArray(articles.results);
+      // Skip if we've already used this article title
+      if (
+        randomArticles.some(
+          (article) => article.og_article === randomArticle.title
+        )
+      ) {
+        attempts++;
+        continue;
       }
 
       try {
-        const word = await promptGPT(
+        word = await promptGPT(
           `This is a headline from the New York Times: ${randomArticle.title}. Identify one word that you think is the most important in this headline (must be a noun, a proper noun if it's available). Only reply with the word, don't say anything else.`
         );
+
+        // Check if word is already used
+        if (usedWords.has(word.toLowerCase())) {
+          duplicateFound = true;
+          attempts++;
+          continue;
+        }
+
         console.log(randomArticle.url);
 
         randomArticles.push({
@@ -246,10 +292,18 @@ async function getArticles() {
           url: randomArticle.url,
           word: word,
         });
+
+        usedWords.add(word.toLowerCase()); // Add word to used set
       } catch (error) {
         console.error("Error with OpenAI API:", error);
         throw error;
       }
+    }
+
+    if (randomArticles.length < numArticles) {
+      console.warn(
+        `Could only find ${randomArticles.length} unique articles with unique words out of ${numArticles} requested`
+      );
     }
 
     return randomArticles;
@@ -263,10 +317,9 @@ function getDate(yesterday = false) {
   const today = new Date();
   if (yesterday) today.setDate(today.getDate() - 1);
 
-  return `${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(
-    2,
-    "0"
-  )}-${today.getFullYear()}`;
+  return `${String(today.getMonth() + 1).padStart(2, "0")}-${String(
+    today.getDate()
+  ).padStart(2, "0")}-${today.getFullYear()}`;
 }
 
 function checkTime(time, dateToCheck = new Date()) {
@@ -277,7 +330,11 @@ function checkTime(time, dateToCheck = new Date()) {
     dateToCheck.getMonth(),
     dateToCheck.getDate()
   );
-  const nowMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const nowMidnight = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  );
 
   if (dateToCheckMidnight < nowMidnight) {
     return true;

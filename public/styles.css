@@ -5,6 +5,7 @@ body {
   margin: 0px;
   min-height: 100vh;
   overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 #p5_loading {
@@ -64,14 +65,12 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
   position: fixed;
-  bottom: 6rem;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
   max-width: 600px;
-  padding: 0 20px;
+  z-index: 1;
 }
 
 .turns-remaining {
@@ -80,30 +79,35 @@ h1 {
   margin-right: 10px;
 }
 
-@media (max-width: 600px) {
-  #progressIndicator {
-    gap: 8px;
-    bottom: 6rem;
-  }
+/* Default mobile-friendly layout for all screens */
+#progressIndicator {
+  gap: 6px;
+  bottom: 7.5rem;
+  padding: 0 10px;
+}
 
-  .progress-dot {
-    width: 12px;
-    height: 12px;
-  }
+.progress-dot {
+  width: 10px;
+  height: 10px;
+}
+
+.turns-remaining {
+  font-size: 0.9rem;
+  margin-right: 8px;
 }
 
 .progress-dot {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 1px solid #5A594E;
+  border: 1px solid #5a594e;
   box-sizing: border-box;
   transition: background-color 0.2s ease;
 }
 
 .progress-dot.completed {
-  background-color: #5A594E;
-  border-color: #5A594E;
+  background-color: #5a594e;
+  border-color: #5a594e;
 }
 
 .progress-dot.current {
@@ -113,7 +117,7 @@ h1 {
 
 .progress-dot.upcoming {
   background-color: #fff;
-  border-color: #5A594E;
+  border-color: #5a594e;
 }
 
 .button-container {
@@ -131,6 +135,7 @@ h1 {
   padding: 0.6rem 2rem;
   transition: all 0.2s ease;
   opacity: 1;
+  display: none;
 }
 
 #versusButton:hover {
@@ -253,12 +258,12 @@ button[disabled] {
   max-width: 600px;
   text-align: center;
   border-radius: 8px;
-  margin: 70px auto 3rem;
+  margin: 60px auto 2rem;
   overflow: hidden;
 }
 
 .theme-label-container {
-  background: #B2EBF2;
+  background: #b2ebf2;
   width: 100%;
   padding: 4px 0;
   margin: 0;
@@ -297,6 +302,8 @@ button[disabled] {
   align-items: center;
   justify-content: center;
   margin: 0 auto 1.5rem;
+  padding: 1rem;
+  line-height: 1.3;
 }
 
 .headline-text {
@@ -344,6 +351,7 @@ button[disabled] {
   width: auto;
   padding: 0.6rem 2rem;
   transition: all 0.2s ease;
+  display: none;
 }
 
 #next.active {
@@ -398,38 +406,86 @@ button[disabled] {
   font-size: 1.2rem;
 }
 
-@media (max-width: 600px) {
-  #start,
-  #game,
-  #end,
-  #countdown,
-  #results {
-    padding: 10px;
-  }
+/* Mobile-specific adjustments (applied by default, overridden by desktop when sufficient size) */
+#start,
+#game,
+#end,
+#countdown,
+#results {
+  padding: 10px;
+}
 
-  #optionsCont {
-    flex-wrap: wrap;
-  }
+.theme-container {
+  margin: 40px auto 1.5rem;
+  font-size: 0.9rem;
+}
 
-  #next {
-    width: 80%;
-  }
+.theme-text {
+  font-size: 1.1rem;
+}
 
-  .score-display {
-    font-size: 2rem;
-  }
+.instruction-text {
+  font-size: 0.9rem;
+  margin: 2rem auto 0.5rem;
+}
 
-  .headline-text-result {
-    font-size: 1rem;
-  }
+#optionsCont {
+  gap: 8px;
+  margin: 1rem auto 0;
+  padding: 0 0.5rem;
+}
 
-  .headline-result-item {
-    padding: 10px;
-  }
+#optionsCont button {
+  font-size: 1.1rem;
+  padding: 0.5rem;
+  min-height: 44px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
 
-  .headline-result-item .headline-controls {
-    margin-bottom: 8px;
-  }
+#next {
+  width: 80%;
+  bottom: 1.5rem;
+  min-height: 44px;
+}
+
+.score-display {
+  font-size: 2rem;
+}
+
+.headline-text-result {
+  font-size: 1rem;
+}
+
+.headline-result-item {
+  padding: 10px;
+}
+
+.headline-result-item .headline-controls {
+  margin-bottom: 8px;
+}
+
+#headline {
+  min-height: 70px;
+  font-size: 1.1rem;
+  padding: 0.8rem;
+  margin: 0 auto 1rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+#timer {
+  font-size: 2.5rem;
+  top: 8px;
+}
+
+#game {
+  padding-bottom: 12rem;
+}
+
+.headline-text {
+  line-height: 1.4;
 }
 
 #timer {
@@ -443,6 +499,7 @@ button[disabled] {
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
+  z-index: 10;
 }
 
 #timer.warning {
@@ -484,9 +541,9 @@ button[disabled] {
   left: 0;
   width: 100%;
   height: 80vh;
-  background-color: #ffffff;
+  background-color: transparent;
   border-radius: 20px 20px 0 0;
-  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1); */
   transition: transform 0.3s ease-in-out;
   z-index: 100;
   overflow-y: auto;
@@ -499,8 +556,53 @@ button[disabled] {
 }
 
 .modal-content {
-  padding: 30px;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 12px;
   position: relative;
+  max-width: 600px;
+  width: 90%;
+  margin: 20px auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h1 {
+  font-size: 32px;
+  margin-bottom: 24px;
+  color: #333;
+  text-align: center;
+}
+
+.how-to-content {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.how-to-content p {
+  margin-bottom: 20px;
+}
+
+.contact-info {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.contact-info p {
+  font-size: 14px;
+  color: #666;
+}
+
+.contact-info a {
+  color: #e15656;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact-info a:hover {
+  color: #c13e3e;
+  text-decoration: underline;
 }
 
 .back-arrow {
@@ -682,6 +784,68 @@ button[disabled] {
   padding-top: 15px;
 }
 
+/* Instructions Screen Styles */
+#instructions {
+  position: fixed;
+  inset: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  display: none;
+  background: #e15656;
+  text-align: center;
+}
+
+.instructions-content {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px);
+}
+
+.instructions-text {
+  font-size: 1.2rem;
+  color: #000;
+  margin: 1rem auto;
+  line-height: 1.4;
+  max-width: 500px;
+}
+
+.video-container {
+  margin: 1rem auto;
+  max-width: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.preview-video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.next-button {
+  background-color: #000;
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+.next-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
 /* Countdown Screen Styles */
 #countdown {
   display: none;
@@ -728,7 +892,7 @@ body.countdown-active #countdown {
 }
 
 #leaderboard {
-  padding: 20px;
+  padding: 20px 20px 80px 20px; /* Add bottom padding for BMC button */
   text-align: center;
   width: 100%;
   background: #e15656;
@@ -737,6 +901,8 @@ body.countdown-active #countdown {
   position: fixed;
   inset: 0;
   display: none;
+  overflow-y: auto;
+  max-height: 100vh;
 }
 
 #leaderboard .profile-icon {
@@ -828,8 +994,61 @@ body.countdown-active #countdown {
   background: #ffffff;
   border-radius: 8px;
   padding: 20px;
-  margin: 20px auto;
+  margin: 20px auto 100px auto; /* Add bottom margin for BMC button */
   max-width: 400px;
+}
+
+/* Buy Me a Coffee Button Styles */
+.bmc-button-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(225, 86, 86, 0.9);
+  padding: 10px;
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 600px) {
+  .bmc-button-container {
+    bottom: 15px;
+    padding: 6px;
+    width: auto;
+    min-width: 140px;
+  }
+
+  /* Target the actual Buy Me a Coffee button */
+  .bmc-button-container iframe {
+    max-width: 100%;
+    width: auto !important;
+    min-width: 120px !important;
+  }
+
+  #leaderboard {
+    padding: 10px 10px 70px 10px; /* Adjust padding for mobile */
+  }
+
+  .daily-leaderboard-container {
+    margin-bottom: 80px;
+  }
+}
+
+/* Extra small screens - make button even smaller */
+@media (max-width: 480px) {
+  .bmc-button-container {
+    bottom: 12px;
+    padding: 4px;
+    min-width: 120px;
+  }
+
+  .bmc-button-container iframe {
+    max-width: 100%;
+    width: auto !important;
+    min-width: 100px !important;
+  }
 }
 
 .share-button {
@@ -859,8 +1078,223 @@ body.countdown-active #countdown {
 
 /* Override any border styles when button is green */
 .share-button[style*="background-color: #4CAF50"],
-.share-button[style*="background-color:#4CAF50"] {
-  border: 0 !important;
-  border-color: transparent !important;
-  outline: none !important;
+.share-button[style*="background-color: rgb(76, 175, 80)"] {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.feedback-button {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background-color: transparent !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  text-decoration: underline !important;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.feedback-button:hover {
+  color: #666 !important;
+  transform: none !important;
+}
+
+/* Desktop layout - only when there's sufficient width AND height */
+@media (min-width: 800px) and (min-height: 900px) {
+  #start,
+  #game,
+  #end,
+  #countdown,
+  #results {
+    padding: 20px;
+  }
+
+  #progressIndicator {
+    gap: 10px;
+    bottom: 8rem;
+    padding: 0 20px;
+  }
+
+  .progress-dot {
+    width: 16px;
+    height: 16px;
+  }
+
+  .turns-remaining {
+    font-size: 1rem;
+    margin-right: 10px;
+  }
+
+  .theme-container {
+    margin: 60px auto 2rem;
+    font-size: inherit;
+  }
+
+  .theme-text {
+    font-size: 1.3rem;
+  }
+
+  .instruction-text {
+    font-size: 1rem;
+    margin: 3.5rem auto 0.5rem;
+  }
+
+  #optionsCont {
+    margin: 1.5rem auto 0;
+    gap: 12px;
+    padding: 0 1rem;
+  }
+
+  #optionsCont button {
+    font-size: 1.3rem;
+    padding: 0.6rem;
+    min-height: auto;
+    white-space: initial;
+  }
+
+  #headline {
+    min-height: 90px;
+    font-size: 1.3rem;
+    padding: 1rem;
+    margin: 0 auto 1.5rem;
+  }
+
+  #timer {
+    font-size: 3rem;
+    top: 10px;
+  }
+
+  #next {
+    width: auto;
+    bottom: 2rem;
+    min-height: auto;
+  }
+
+  #game {
+    padding-bottom: 20px;
+  }
+
+  .headline-text {
+    line-height: 1.3;
+  }
+}
+
+/* Extra small screens - even more compact */
+@media (max-width: 480px) {
+  .theme-container {
+    margin: 30px auto 1rem;
+  }
+
+  .theme-text {
+    font-size: 1rem;
+    padding: 0 4px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.3rem;
+    margin: 0.8rem auto 2rem;
+  }
+
+  #headline {
+    min-height: 60px;
+    font-size: 1rem;
+    padding: 0.6rem;
+  }
+
+  #timer {
+    font-size: 2rem;
+  }
+
+  #optionsCont {
+    gap: 6px;
+    padding: 0 0.3rem;
+  }
+
+  #optionsCont button {
+    font-size: 1rem;
+    padding: 0.4rem;
+    min-height: 40px;
+  }
+
+  #progressIndicator {
+    bottom: 7rem;
+    gap: 4px;
+  }
+
+  .progress-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .turns-remaining {
+    font-size: 0.8rem;
+    margin-right: 6px;
+  }
+
+  #game {
+    padding-bottom: 11rem;
+  }
+
+  /* Instructions screen mobile styles */
+  #instructions {
+    padding: 10px;
+  }
+
+  .instructions-content {
+    padding: 0.5rem 0;
+    min-height: calc(100vh - 80px);
+  }
+
+  .instructions-text {
+    font-size: 1rem;
+    margin: 0.5rem auto;
+    max-width: 90%;
+  }
+
+  .video-container {
+    max-width: 80%;
+    margin: 0.5rem auto;
+  }
+
+  .next-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 18px;
+    border-radius: 8px;
+    max-width: 98vw;
+    width: 98vw;
+    margin: 10px auto;
+  }
+  .modal-content h1 {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+  .how-to-content {
+    font-size: 0.98rem;
+  }
+  .contact-info p {
+    font-size: 0.85rem;
+  }
+  .back-arrow {
+    top: 14px;
+    left: 14px;
+  }
+  .back-arrow img {
+    width: 20px;
+    height: 20px;
+  }
 }

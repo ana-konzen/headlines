@@ -5,6 +5,9 @@ import { changeScene, scenes } from "./main.js";
 let me;
 
 const maxPoints = 10;
+let feedbackTimeout;
+let backButtonHandler;
+let feedbackButtonHandler;
 
 export function preload() {
   me = partyLoadMyShared();
@@ -48,22 +51,98 @@ export function enter() {
       scoreCounts.forEach((count, index) => {
         const scoreNum = index + 1;
         select(`.score-${scoreNum} .score-value`).html(count);
-        
+
         // Calculate width as percentage of 50 (fixed maximum)
         const widthPercentage = Math.min((count / 50) * 100, 100);
-        select(`.score-bar-fill.score-${scoreNum}`).style("width", `${widthPercentage}%`);
+        select(`.score-bar-fill.score-${scoreNum}`).style(
+          "width",
+          `${widthPercentage}%`
+        );
       });
 
       // Highlight user's score bar in red
-      select(`.score-bar-fill.score-${me.score}`).style("background-color", "#e15656");
+      select(`.score-bar-fill.score-${me.score}`).style(
+        "background-color",
+        "#e15656"
+      );
     });
   });
 
-  select("#leaderboard .back-button").mousePressed(() => {
+  // Add back button click handler
+  backButtonHandler = () => {
     changeScene(scenes.title);
+  };
+  document
+    .querySelector("#leaderboard .back-arrow")
+    .addEventListener("click", backButtonHandler);
+
+  // Add feedback button click handler
+  feedbackButtonHandler = () => {
+    window.open(
+      "https://forms.gle/sLp5xzVHczsnqHb3A",
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+  document
+    .getElementById("feedback-button")
+    .addEventListener("click", feedbackButtonHandler);
+
+  // Show feedback popup after 3 seconds
+  feedbackTimeout = setTimeout(() => {
+    showFeedbackPopup();
+  }, 3000);
+}
+
+function showFeedbackPopup() {
+  const feedbackModal = document.getElementById("feedback-modal");
+  feedbackModal.style.display = "block";
+  feedbackModal.classList.add("show");
+
+  // Add close button handler
+  document
+    .getElementById("close-feedback")
+    .addEventListener("click", closeFeedbackPopup);
+
+  // Close on background click
+  feedbackModal.addEventListener("click", (e) => {
+    if (e.target === feedbackModal) {
+      closeFeedbackPopup();
+    }
   });
+}
+
+function closeFeedbackPopup() {
+  const feedbackModal = document.getElementById("feedback-modal");
+  feedbackModal.classList.remove("show");
+  setTimeout(() => {
+    feedbackModal.style.display = "none";
+  }, 300); // Wait for animation to complete
 }
 
 export function exit() {
   select("#leaderboard").style("display", "none");
+
+  // Clear feedback timeout if still pending
+  if (feedbackTimeout) {
+    clearTimeout(feedbackTimeout);
+    feedbackTimeout = null;
+  }
+
+  // Close feedback popup if open
+  closeFeedbackPopup();
+
+  // Remove back button click handler
+  if (backButtonHandler) {
+    document
+      .querySelector("#leaderboard .back-arrow")
+      .removeEventListener("click", backButtonHandler);
+  }
+
+  // Remove feedback button click handler
+  if (feedbackButtonHandler) {
+    document
+      .getElementById("feedback-button")
+      .removeEventListener("click", feedbackButtonHandler);
+  }
 }
