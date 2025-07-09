@@ -18,6 +18,7 @@ let lastChosenWord = "____";
 let currentLetterIndex = 0;
 let typewriterInterval;
 let autoAdvance = false;
+let isTransitioning = false; // Flag to prevent overlapping fades
 
 export function preload() {
   // partyConnect("wss://demoserver.p5party.org", "headlines-game");
@@ -54,7 +55,8 @@ export function update() {
   }
   select("#timer").html(timer);
   if (headlineIndex < numArticles) {
-    if (chosenWord !== lastChosenWord) {
+    // Only animate typewriter when user selects an answer
+    if (chosenWord !== lastChosenWord && chosenWord !== "____") {
       currentLetterIndex = 0;
       clearInterval(typewriterInterval);
 
@@ -71,11 +73,12 @@ export function update() {
         } else {
           clearInterval(typewriterInterval);
 
-          // Auto-advance after animation completes
-          if (autoAdvance) {
+          // Auto-advance after animation completes with 1000ms delay
+          if (autoAdvance && !isTransitioning) {
+            isTransitioning = true;
             setTimeout(() => {
-              goToNextRound();
-            }, 500);
+              fadeToNextRound();
+            }, 1000);
           }
         }
       }, 100);
@@ -142,6 +145,35 @@ function updateProgressIndicator() {
   }
 }
 
+function fadeToNextRound() {
+  if (!isTransitioning) return;
+
+  // Fade out current headline
+  select("#headline").style("opacity", "0");
+  select("#headline").style("transition", "opacity 0.3s ease");
+
+  setTimeout(() => {
+    goToNextRound();
+
+    // Fade in new headline after content is set
+    setTimeout(() => {
+      select("#headline").style("opacity", "1");
+      isTransitioning = false;
+    }, 50);
+  }, 300);
+}
+
+function fadeInHeadline() {
+  if (isTransitioning) return;
+
+  select("#headline").style("opacity", "0");
+  select("#headline").style("transition", "opacity 0.5s ease");
+
+  setTimeout(() => {
+    select("#headline").style("opacity", "1");
+  }, 50);
+}
+
 function resetGameState() {
   headlineIndex = 0;
   chosenWord = "____";
@@ -150,6 +182,7 @@ function resetGameState() {
   timer = roundTime;
   userAnswers = Array(numArticles).fill("____");
   autoAdvance = false;
+  isTransitioning = false;
 
   select("#optionsCont").html("");
 }
@@ -193,9 +226,12 @@ function fetchHeadlines() {
 
       localStorage.setItem("articlesData", JSON.stringify(articles));
 
+      // Set initial headline with blank and fade it in
       select("#headline").html(
         `<div class="headline-text">${headline?.article || ""}</div>`
       );
+
+      fadeInHeadline();
     })
     .catch((error) => {
       console.error("Error fetching headlines:", error);
@@ -204,11 +240,11 @@ function fetchHeadlines() {
 
 function goToNextRound() {
   if (articles && articles.length > headlineIndex && articles[headlineIndex]) {
-    // Reset disabled options for next round
-    select(".possible-option.disabled").removeClass("possible-option");
+    // Don't reset disabled options - they should stay disabled once selected
 
     // Reset for next round
     chosenWord = "____";
+    lastChosenWord = "____";
     autoAdvance = false;
     headlineIndex++;
 
@@ -230,6 +266,11 @@ function goToNextRound() {
       return;
     }
     headline = articles[headlineIndex];
+
+    // Set new headline with blank (no animation yet)
+    select("#headline").html(
+      `<div class="headline-text">${headline?.article || ""}</div>`
+    );
 
     updateProgressIndicator();
   }
@@ -261,10 +302,8 @@ function handleOptionPress(option, responseObj) {
     me.score++;
   }
 
-  // Visual feedback - mark selected option
-  selectAll(".possible-option").forEach((button) => {
-    button.removeClass("disabled");
-  });
+  // Visual feedback - mark selected option as disabled (red)
+  // Don't remove disabled class from other buttons - they should stay disabled
   option.addClass("disabled");
 
   // Enable auto-advance after animation
